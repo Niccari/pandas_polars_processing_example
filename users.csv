@@ -1,0 +1,6 @@
+id,name,email,type,leaved
+BcHgeZkTsc,アリス,hoge@hoge.example.com,personal,FALSE
+KHPiabVr3o,ボブ,fuga@fuga.org,personal,FALSE
+AQA7LkexXv,チャーリー,foo@foo.net,personal,TRUE
+C82ZQKSQk7,ダービー,baz@baz.biz,enterprise,FALSE
+HzZow64HGH,エリザベス,bar@bar.info,enterprise,FALSE
