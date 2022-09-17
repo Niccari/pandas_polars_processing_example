@@ -36,6 +36,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .highlight .m { color: var(--jp-mirror-editor-number-color) } /* Literal.Number */
 .highlight .s { color: var(--jp-mirror-editor-string-color) } /* Literal.String */
 .highlight .ow { color: var(--jp-mirror-editor-operator-color); font-weight: bold } /* Operator.Word */
+.highlight .pm { color: var(--jp-mirror-editor-punctuation-color) } /* Punctuation.Marker */
 .highlight .w { color: var(--jp-mirror-editor-variable-color) } /* Text.Whitespace */
 .highlight .mb { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Bin */
 .highlight .mf { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Float */
@@ -14464,10 +14465,6 @@ a.anchor-link {
   display: none;
 }
 
-.highlight  {
-  margin: 0.4em;
-}
-
 /* Input area styling */
 .jp-InputArea {
   overflow: hidden;
@@ -14477,9 +14474,26 @@ a.anchor-link {
   overflow: hidden;
 }
 
-.CodeMirror pre {
+.CodeMirror.cm-s-jupyter .highlight pre {
+/* weird, but --jp-code-padding defined to be 5px but 4px horizontal padding is hardcoded for pre.CodeMirror-line */
+  padding: var(--jp-code-padding) 4px;
   margin: 0;
-  padding: 0;
+
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+
+}
+
+.jp-OutputArea-output pre {
+  line-height: inherit;
+  font-family: inherit;
+}
+
+.jp-RenderedText pre {
+  color: var(--jp-content-font-color1);
+  font-size: var(--jp-code-font-size);
 }
 
 /* Using table instead of flexbox so that we can use break-inside property */
@@ -14559,12 +14573,12 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
                 },
                 displayAlign: 'center',
                 CommonHTML: {
-                    linebreaks: { 
-                    automatic: true 
+                    linebreaks: {
+                    automatic: true
                     }
                 }
             });
-        
+
             MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
         }
     }
@@ -14581,10 +14595,11 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="%E6%9C%AC%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">&#26412;&#12467;&#12540;&#12489;&#12395;&#12388;&#12356;&#12390;<a class="anchor-link" href="#%E6%9C%AC%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">&#182;</a></h1><p><a href="https://github.com/pola-rs/polars">polars</a>ライブラリを使って、ユーザ一覧、ユーザ操作一覧、リアクション一覧を集計するサンプル</p>
 <p>幾つかの例を踏まえつつ、ユーザごとの活動度(actions.point + reactions.reward)のランキングを出すことを目標とする</p>
-<h2 id="%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%96%A2%E4%BF%82">&#12487;&#12540;&#12479;&#12398;&#38306;&#20418;<a class="anchor-link" href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%96%A2%E4%BF%82">&#182;</a></h2>
-<pre><code>&lt; users &gt; (親)
+<h2 id="%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4">&#26356;&#26032;&#23653;&#27508;<a class="anchor-link" href="#%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4">&#182;</a></h2><p>2022.09.17 polars v0.14.0および処理上の警告に対応</p>
+<h2 id="%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%96%A2%E4%BF%82">&#12487;&#12540;&#12479;&#12398;&#38306;&#20418;<a class="anchor-link" href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%96%A2%E4%BF%82">&#182;</a></h2><pre><code>&lt; users &gt; (親)
 | --- &lt; actions &gt; (子) 
-  | --- &lt; reactions &gt; (孫)</code></pre>
+  | --- &lt; reactions &gt; (孫)
+</code></pre>
 <h2 id="%E3%83%87%E3%83%BC%E3%82%BF%E6%A7%8B%E9%80%A0">&#12487;&#12540;&#12479;&#27083;&#36896;<a class="anchor-link" href="#%E3%83%87%E3%83%BC%E3%82%BF%E6%A7%8B%E9%80%A0">&#182;</a></h2><ul>
 <li>users.csv: ユーザ一覧<ul>
 <li>id: ユーザID。常にユニークな文字列</li>
@@ -14653,7 +14668,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_users</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;users.csv&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_users</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"users.csv"</span><span class="p">)</span>
 <span class="n">df_users</span>
 </pre></div>
 
@@ -14668,9 +14683,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[2]:</div>
 
@@ -14690,8 +14703,25 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (5, 5)</small>
 <thead>
 <tr>
 <th>
@@ -14731,33 +14761,16 @@ bool
 <tbody>
 <tr>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"アリス"
+&quot;アリス&quot;
 </td>
 <td>
-"hoge@hoge.example.com"
+&quot;hoge@hoge.exam...
 </td>
 <td>
-"personal"
-</td>
-<td>
-false
-</td>
-</tr>
-<tr>
-<td>
-"KHPiabVr3o"
-</td>
-<td>
-"ボブ"
-</td>
-<td>
-"fuga@fuga.org"
-</td>
-<td>
-"personal"
+&quot;personal&quot;
 </td>
 <td>
 false
@@ -14765,16 +14778,33 @@ false
 </tr>
 <tr>
 <td>
-"AQA7LkexXv"
+&quot;KHPiabVr3o&quot;
 </td>
 <td>
-"チャーリー"
+&quot;ボブ&quot;
 </td>
 <td>
-"foo@foo.net"
+&quot;fuga@fuga.org&quot;
 </td>
 <td>
-"personal"
+&quot;personal&quot;
+</td>
+<td>
+false
+</td>
+</tr>
+<tr>
+<td>
+&quot;AQA7LkexXv&quot;
+</td>
+<td>
+&quot;チャーリー&quot;
+</td>
+<td>
+&quot;foo@foo.net&quot;
+</td>
+<td>
+&quot;personal&quot;
 </td>
 <td>
 true
@@ -14782,16 +14812,16 @@ true
 </tr>
 <tr>
 <td>
-"C82ZQKSQk7"
+&quot;C82ZQKSQk7&quot;
 </td>
 <td>
-"ダービー"
+&quot;ダービー&quot;
 </td>
 <td>
-"baz@baz.biz"
+&quot;baz@baz.biz&quot;
 </td>
 <td>
-"enterprise"
+&quot;enterprise&quot;
 </td>
 <td>
 false
@@ -14799,16 +14829,16 @@ false
 </tr>
 <tr>
 <td>
-"HzZow64HGH"
+&quot;HzZow64HGH&quot;
 </td>
 <td>
-"エリザベス"
+&quot;エリザベス&quot;
 </td>
 <td>
-"bar@bar.info"
+&quot;bar@bar.info&quot;
 </td>
 <td>
-"enterprise"
+&quot;enterprise&quot;
 </td>
 <td>
 false
@@ -14849,7 +14879,7 @@ false
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_users</span><span class="p">[[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">]]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_users</span><span class="p">[[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">]]</span>
 </pre></div>
 
      </div>
@@ -14863,9 +14893,7 @@ false
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
 
@@ -14885,8 +14913,25 @@ false
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (5, 2)</small>
 <thead>
 <tr>
 <th>
@@ -14908,42 +14953,42 @@ str
 <tbody>
 <tr>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"アリス"
-</td>
-</tr>
-<tr>
-<td>
-"KHPiabVr3o"
-</td>
-<td>
-"ボブ"
+&quot;アリス&quot;
 </td>
 </tr>
 <tr>
 <td>
-"AQA7LkexXv"
+&quot;KHPiabVr3o&quot;
 </td>
 <td>
-"チャーリー"
-</td>
-</tr>
-<tr>
-<td>
-"C82ZQKSQk7"
-</td>
-<td>
-"ダービー"
+&quot;ボブ&quot;
 </td>
 </tr>
 <tr>
 <td>
-"HzZow64HGH"
+&quot;AQA7LkexXv&quot;
 </td>
 <td>
-"エリザベス"
+&quot;チャーリー&quot;
+</td>
+</tr>
+<tr>
+<td>
+&quot;C82ZQKSQk7&quot;
+</td>
+<td>
+&quot;ダービー&quot;
+</td>
+</tr>
+<tr>
+<td>
+&quot;HzZow64HGH&quot;
+</td>
+<td>
+&quot;エリザベス&quot;
 </td>
 </tr>
 </tbody>
@@ -14965,7 +15010,7 @@ str
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_users</span><span class="p">[:,</span> <span class="p">:</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>    <span class="c1"># same as df_users.loc[:, :&quot;name&quot;] of pd.DataFrame</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_users</span><span class="p">[:,</span> <span class="p">:</span><span class="s2">"name"</span><span class="p">]</span>    <span class="c1"># same as df_users.loc[:, :"name"] of pd.DataFrame</span>
 </pre></div>
 
      </div>
@@ -14979,9 +15024,7 @@ str
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
 
@@ -15001,8 +15044,25 @@ str
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (5, 2)</small>
 <thead>
 <tr>
 <th>
@@ -15024,42 +15084,42 @@ str
 <tbody>
 <tr>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"アリス"
-</td>
-</tr>
-<tr>
-<td>
-"KHPiabVr3o"
-</td>
-<td>
-"ボブ"
+&quot;アリス&quot;
 </td>
 </tr>
 <tr>
 <td>
-"AQA7LkexXv"
+&quot;KHPiabVr3o&quot;
 </td>
 <td>
-"チャーリー"
-</td>
-</tr>
-<tr>
-<td>
-"C82ZQKSQk7"
-</td>
-<td>
-"ダービー"
+&quot;ボブ&quot;
 </td>
 </tr>
 <tr>
 <td>
-"HzZow64HGH"
+&quot;AQA7LkexXv&quot;
 </td>
 <td>
-"エリザベス"
+&quot;チャーリー&quot;
+</td>
+</tr>
+<tr>
+<td>
+&quot;C82ZQKSQk7&quot;
+</td>
+<td>
+&quot;ダービー&quot;
+</td>
+</tr>
+<tr>
+<td>
+&quot;HzZow64HGH&quot;
+</td>
+<td>
+&quot;エリザベス&quot;
 </td>
 </tr>
 </tbody>
@@ -15080,7 +15140,7 @@ str
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="enterprise-%E3%83%A6%E3%83%BC%E3%82%B6-or-%E9%80%80%E4%BC%9A%E6%B8%88%E3%81%BF%E3%83%A6%E3%83%BC%E3%82%B6%E3%82%92%E5%8F%96%E3%82%8A%E5%87%BA%E3%81%99:-pl.DataFrame.filter%E7%AD%89">enterprise &#12518;&#12540;&#12470; or &#36864;&#20250;&#28168;&#12415;&#12518;&#12540;&#12470;&#12434;&#21462;&#12426;&#20986;&#12377;: pl.DataFrame.filter&#31561;<a class="anchor-link" href="#enterprise-%E3%83%A6%E3%83%BC%E3%82%B6-or-%E9%80%80%E4%BC%9A%E6%B8%88%E3%81%BF%E3%83%A6%E3%83%BC%E3%82%B6%E3%82%92%E5%8F%96%E3%82%8A%E5%87%BA%E3%81%99:-pl.DataFrame.filter%E7%AD%89">&#182;</a></h2><p>複数条件指定時、ANDは"&amp;"、ORは"|"でつなぐ</p>
+<h2 id="enterprise-%E3%83%A6%E3%83%BC%E3%82%B6-or-%E9%80%80%E4%BC%9A%E6%B8%88%E3%81%BF%E3%83%A6%E3%83%BC%E3%82%B6%E3%82%92%E5%8F%96%E3%82%8A%E5%87%BA%E3%81%99:-pl.DataFrame.filter%E7%AD%89">enterprise &#12518;&#12540;&#12470; or &#36864;&#20250;&#28168;&#12415;&#12518;&#12540;&#12470;&#12434;&#21462;&#12426;&#20986;&#12377;: pl.DataFrame.filter&#31561;<a class="anchor-link" href="#enterprise-%E3%83%A6%E3%83%BC%E3%82%B6-or-%E9%80%80%E4%BC%9A%E6%B8%88%E3%81%BF%E3%83%A6%E3%83%BC%E3%82%B6%E3%82%92%E5%8F%96%E3%82%8A%E5%87%BA%E3%81%99:-pl.DataFrame.filter%E7%AD%89">&#182;</a></h2><p>複数条件指定時、ANDは&quot;&amp;&quot;、ORは&quot;|&quot;でつなぐ</p>
 <p>条件式は必ず()で括らないと意図した評価順にならず、<code>TypeError</code>となる</p>
 <p>※ pandasと異なり、query関数は存在しない</p>
 
@@ -15095,7 +15155,7 @@ str
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_users</span><span class="o">.</span><span class="n">filter</span><span class="p">((</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;enterprise&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;leaved&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_users</span><span class="o">.</span><span class="n">filter</span><span class="p">((</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"enterprise"</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"leaved"</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">))</span>
 </pre></div>
 
      </div>
@@ -15109,9 +15169,7 @@ str
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 
@@ -15131,8 +15189,25 @@ str
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (3, 5)</small>
 <thead>
 <tr>
 <th>
@@ -15172,16 +15247,16 @@ bool
 <tbody>
 <tr>
 <td>
-"AQA7LkexXv"
+&quot;AQA7LkexXv&quot;
 </td>
 <td>
-"チャーリー"
+&quot;チャーリー&quot;
 </td>
 <td>
-"foo@foo.net"
+&quot;foo@foo.net&quot;
 </td>
 <td>
-"personal"
+&quot;personal&quot;
 </td>
 <td>
 true
@@ -15189,16 +15264,16 @@ true
 </tr>
 <tr>
 <td>
-"C82ZQKSQk7"
+&quot;C82ZQKSQk7&quot;
 </td>
 <td>
-"ダービー"
+&quot;ダービー&quot;
 </td>
 <td>
-"baz@baz.biz"
+&quot;baz@baz.biz&quot;
 </td>
 <td>
-"enterprise"
+&quot;enterprise&quot;
 </td>
 <td>
 false
@@ -15206,16 +15281,16 @@ false
 </tr>
 <tr>
 <td>
-"HzZow64HGH"
+&quot;HzZow64HGH&quot;
 </td>
 <td>
-"エリザベス"
+&quot;エリザベス&quot;
 </td>
 <td>
-"bar@bar.info"
+&quot;bar@bar.info&quot;
 </td>
 <td>
-"enterprise"
+&quot;enterprise&quot;
 </td>
 <td>
 false
@@ -15232,168 +15307,19 @@ false
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># df_users.leaved == True はNG。右辺がTrueのまま評価され、リスト化されないため</span>
-<span class="n">df_users</span><span class="p">[</span>
-    <span class="p">(</span><span class="n">df_users</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;enterprise&quot;</span><span class="p">)</span>
-    <span class="o">|</span> <span class="p">(</span><span class="n">df_users</span><span class="o">.</span><span class="n">leaved</span><span class="p">)</span>
-<span class="p">]</span>
-</pre></div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>※ polars v0.14.0以降、DataFrameのattributeによる特定列を指定は廃止となった。特定列の参照だけであれば<code>polars.DataFrame.get_column</code>および<code>polars.DataFrame.get_columns</code>、特定列の更新であれば<code>polars.DataFrame.with_column</code>および<code>polars.DataFrame.with_columns</code>を使う。これら処理は並列に実行されるので、polarsにおける速度改善の面でも推奨される。</p>
+<p>公式ドキュメント: https://pola-rs.github.io/polars-book/user-guide/coming_from_pandas.html#column-assignment</p>
 
-     </div>
 </div>
 </div>
 </div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>/Users/kuki/.local/share/virtualenvs/pandas_processing_example-mmbqAkgW/lib/python3.10/site-packages/polars/internals/frame.py:1459: UserWarning: accessing series as Attribute of a DataFrame is deprecated
-  warnings.warn(&#34;accessing series as Attribute of a DataFrame is deprecated&#34;)
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
-
-
-
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1 "class="dataframe ">
-<thead>
-<tr>
-<th>
-id
-</th>
-<th>
-name
-</th>
-<th>
-email
-</th>
-<th>
-type
-</th>
-<th>
-leaved
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-bool
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-"AQA7LkexXv"
-</td>
-<td>
-"チャーリー"
-</td>
-<td>
-"foo@foo.net"
-</td>
-<td>
-"personal"
-</td>
-<td>
-true
-</td>
-</tr>
-<tr>
-<td>
-"C82ZQKSQk7"
-</td>
-<td>
-"ダービー"
-</td>
-<td>
-"baz@baz.biz"
-</td>
-<td>
-"enterprise"
-</td>
-<td>
-false
-</td>
-</tr>
-<tr>
-<td>
-"HzZow64HGH"
-</td>
-<td>
-"エリザベス"
-</td>
-<td>
-"bar@bar.info"
-</td>
-<td>
-"enterprise"
-</td>
-<td>
-false
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-
-</div>
-
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
@@ -15421,7 +15347,7 @@ false
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df_users</span><span class="p">)</span>
@@ -15438,11 +15364,9 @@ false
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
 
 
 
@@ -15473,11 +15397,10 @@ false
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># df_users.leaved == False はNG。右辺がFalseのまま評価され、リスト化されないため</span>
-<span class="nb">len</span><span class="p">(</span><span class="n">df_users</span><span class="p">[</span><span class="o">~</span><span class="n">df_users</span><span class="o">.</span><span class="n">leaved</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df_users</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="o">~</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"leaved"</span><span class="p">)))</span>
 </pre></div>
 
      </div>
@@ -15491,11 +15414,9 @@ false
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
 
 
 
@@ -15517,8 +15438,8 @@ false
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h3 id="%E3%83%A1%E3%83%BC%E3%83%AB%E3%82%A2%E3%83%89%E3%83%AC%E3%82%B9%E3%81%8C%22b%22%E3%81%8B%E3%82%89%E5%A7%8B%E3%81%BE%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E3%83%A6%E3%83%BC%E3%82%B6%E3%82%92%E5%8F%96%E3%82%8A%E3%81%A0%E3%81%97:-polars.Series.apply">&#12513;&#12540;&#12523;&#12450;&#12489;&#12524;&#12473;&#12364;"b"&#12363;&#12425;&#22987;&#12414;&#12387;&#12390;&#12356;&#12427;&#12518;&#12540;&#12470;&#12434;&#21462;&#12426;&#12384;&#12375;: polars.Series.apply<a class="anchor-link" href="#%E3%83%A1%E3%83%BC%E3%83%AB%E3%82%A2%E3%83%89%E3%83%AC%E3%82%B9%E3%81%8C%22b%22%E3%81%8B%E3%82%89%E5%A7%8B%E3%81%BE%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E3%83%A6%E3%83%BC%E3%82%B6%E3%82%92%E5%8F%96%E3%82%8A%E3%81%A0%E3%81%97:-polars.Series.apply">&#182;</a></h3><p>今回のケースでは、df_usersのemailだけ参照すればいいので、df_users.emailにapplyを使う方法が望ましい(よりスループットが高く、必要なデータのみ触るため)。polarsでは、第二引数(return_dtype)で返り値の型を指定しておく必要がある。</p>
-<p>なお、polars.DataFrameにもapplyを利用できる。ただし、pandasと違ってcallableに渡されるのはTuple型の各行データになっている。</p>
+<h3 id="%E3%83%A1%E3%83%BC%E3%83%AB%E3%82%A2%E3%83%89%E3%83%AC%E3%82%B9%E3%81%8C%22b%22%E3%81%8B%E3%82%89%E5%A7%8B%E3%81%BE%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E3%83%A6%E3%83%BC%E3%82%B6%E3%82%92%E5%8F%96%E3%82%8A%E3%81%A0%E3%81%97:-polars.Series.apply">&#12513;&#12540;&#12523;&#12450;&#12489;&#12524;&#12473;&#12364;"b"&#12363;&#12425;&#22987;&#12414;&#12387;&#12390;&#12356;&#12427;&#12518;&#12540;&#12470;&#12434;&#21462;&#12426;&#12384;&#12375;: polars.Series.apply<a class="anchor-link" href="#%E3%83%A1%E3%83%BC%E3%83%AB%E3%82%A2%E3%83%89%E3%83%AC%E3%82%B9%E3%81%8C%22b%22%E3%81%8B%E3%82%89%E5%A7%8B%E3%81%BE%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E3%83%A6%E3%83%BC%E3%82%B6%E3%82%92%E5%8F%96%E3%82%8A%E3%81%A0%E3%81%97:-polars.Series.apply">&#182;</a></h3><p>今回のケースでは、df_usersのemailだけ参照すればいいので、df_users.get_column(&quot;email&quot;)にapplyを使う方法が望ましい(よりスループットが高く、必要なデータのみ触るため)。polarsでは、第二引数(return_dtype)で返り値の型を指定しておく必要がある。また、よりシンプルに <code>df_users.filter((pl.col(&quot;email&quot;) &gt;= &quot;b&quot;) &amp; (pl.col(&quot;email&quot;) &lt; &quot;c&quot;))</code>とすることも可。</p>
+<p>なお、polars.DataFrame.applyではcallableに渡されるのはTuple型の各行データになっている。</p>
 
 </div>
 </div>
@@ -15528,11 +15449,11 @@ false
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">serial_email_b_start</span> <span class="o">=</span> <span class="n">df_users</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="n">e</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">),</span> <span class="nb">bool</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_users</span><span class="p">[</span><span class="n">serial_email_b_start</span><span class="p">]))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">serial_email_b_start</span> <span class="o">=</span> <span class="n">df_users</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="s2">"email"</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">email</span><span class="p">:</span> <span class="n">email</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"b"</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_users</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">serial_email_b_start</span><span class="p">)))</span>
 </pre></div>
 
      </div>
@@ -15546,9 +15467,7 @@ false
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15583,10 +15502,10 @@ false
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">user_types</span> <span class="o">=</span> <span class="n">df_users</span><span class="o">.</span><span class="n">distinct</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s2">&quot;type&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">user_types</span> <span class="o">=</span> <span class="n">df_users</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s2">"type"</span><span class="p">)</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
 <span class="n">user_types</span>
 </pre></div>
 
@@ -15601,11 +15520,9 @@ false
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 
 
 
@@ -15625,11 +15542,11 @@ false
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="p">{</span>
-    <span class="n">user_type</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_users</span><span class="p">[</span><span class="n">df_users</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">user_type</span><span class="p">])</span>
+    <span class="n">user_type</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_users</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span> <span class="o">==</span> <span class="n">user_type</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">user_type</span> <span class="ow">in</span> <span class="n">user_types</span>
 <span class="p">}</span> 
 </pre></div>
@@ -15645,11 +15562,9 @@ false
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
 
 
 
@@ -15671,8 +15586,8 @@ false
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%AB%E3%82%88%E3%82%8B%E6%93%8D%E4%BD%9C%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%A7%A3%E6%9E%90">&#12518;&#12540;&#12470;&#12395;&#12424;&#12427;&#25805;&#20316;&#12487;&#12540;&#12479;&#12398;&#35299;&#26512;<a class="anchor-link" href="#%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%AB%E3%82%88%E3%82%8B%E6%93%8D%E4%BD%9C%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%A7%A3%E6%9E%90">&#182;</a></h1><p>id="OoXNK4b3px"について、actions.csv内でpointが空なのでnullになる</p>
-<p>主なデータは整数値のため、pointはi64になっている(pandasではNaN=float。暗黙の型変換でfloatになる)</p>
+<h1 id="%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%AB%E3%82%88%E3%82%8B%E6%93%8D%E4%BD%9C%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%A7%A3%E6%9E%90">&#12518;&#12540;&#12470;&#12395;&#12424;&#12427;&#25805;&#20316;&#12487;&#12540;&#12479;&#12398;&#35299;&#26512;<a class="anchor-link" href="#%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%AB%E3%82%88%E3%82%8B%E6%93%8D%E4%BD%9C%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%A7%A3%E6%9E%90">&#182;</a></h1><p>id=&quot;OoXNK4b3px&quot;について、actions.csv内でpointが空なのでnullになる</p>
+<p>主なデータは整数値のため、pointはi64になっている(pandasではNaN=float。暗黙の型変換でpointがfloatになる)</p>
 
 </div>
 </div>
@@ -15682,10 +15597,10 @@ false
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_actions</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;actions.csv&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_actions</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"actions.csv"</span><span class="p">)</span>
 <span class="n">df_actions</span>
 </pre></div>
 
@@ -15700,9 +15615,250 @@ false
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
 
-<div class="jp-OutputArea-child">
 
+
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
+</style>
+<table border="1" class="dataframe" >
+<small>shape: (7, 5)</small>
+<thead>
+<tr>
+<th>
+id
+</th>
+<th>
+user_id
+</th>
+<th>
+date
+</th>
+<th>
+message
+</th>
+<th>
+point
+</th>
+</tr>
+<tr>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+str
+</td>
+<td>
+i64
+</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+&quot;7GsubTX9n6&quot;
+</td>
+<td>
+&quot;BcHgeZkTsc&quot;
+</td>
+<td>
+&quot;2021-08-15T10:...
+</td>
+<td>
+&quot;Hoge hoge&quot;
+</td>
+<td>
+1
+</td>
+</tr>
+<tr>
+<td>
+&quot;D76FJVQ2j2&quot;
+</td>
+<td>
+&quot;KHPiabVr3o&quot;
+</td>
+<td>
+&quot;2021-08-15T10:...
+</td>
+<td>
+&quot;Lorem Ipsum&quot;
+</td>
+<td>
+21
+</td>
+</tr>
+<tr>
+<td>
+&quot;6znyhCukd6&quot;
+</td>
+<td>
+&quot;HzZow64HGH&quot;
+</td>
+<td>
+&quot;2021-08-15T11:...
+</td>
+<td>
+&quot;テスト　テスト&quot;
+</td>
+<td>
+3
+</td>
+</tr>
+<tr>
+<td>
+&quot;hSQszmDjlU&quot;
+</td>
+<td>
+&quot;BcHgeZkTsc&quot;
+</td>
+<td>
+&quot;2021-08-15T12:...
+</td>
+<td>
+&quot;テスト
+テスト２&quot;
+</td>
+<td>
+42
+</td>
+</tr>
+<tr>
+<td>
+&quot;CVqQD0xH2Y&quot;
+</td>
+<td>
+&quot;HzZow64HGH&quot;
+</td>
+<td>
+&quot;2021-08-15T14:...
+</td>
+<td>
+&quot;👑👑💢&quot;
+</td>
+<td>
+49
+</td>
+</tr>
+<tr>
+<td>
+&quot;OoXNK4b3px&quot;
+</td>
+<td>
+&quot;BcHgeZkTsc&quot;
+</td>
+<td>
+&quot;2021-08-15T14:...
+</td>
+<td>
+&quot;🔡&quot;
+</td>
+<td>
+null
+</td>
+</tr>
+<tr>
+<td>
+&quot;veDQHBOXnG&quot;
+</td>
+<td>
+&quot;BcHgeZkTsc&quot;
+</td>
+<td>
+&quot;2021-08-15T14:...
+</td>
+<td>
+&quot;foo&quot;
+</td>
+<td>
+4
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="%E6%8A%95%E7%A8%BF%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92user_id%E6%98%87%E9%A0%86%E2%86%92point%E9%99%8D%E9%A0%86%E3%81%AB%E3%81%99%E3%82%8B:-sort">&#25237;&#31295;&#12487;&#12540;&#12479;&#12434;user_id&#26119;&#38918;&#8594;point&#38477;&#38918;&#12395;&#12377;&#12427;: sort<a class="anchor-link" href="#%E6%8A%95%E7%A8%BF%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92user_id%E6%98%87%E9%A0%86%E2%86%92point%E9%99%8D%E9%A0%86%E3%81%AB%E3%81%99%E3%82%8B:-sort">&#182;</a></h2><p>引数で渡すリストの各アイテムの順番がそれぞれ対応する(以下例であれば、user_idがreverse=False, pointがreverse=True)</p>
+<p>pandas.DataFrame.sort_valuesはpolars.DataFrame.sortに対応する。acsending属性はreverse属性に対応するが、acsendingはTrueで昇順、reverseはTrueで降順になっている。</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sort_orders</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]</span>
+<span class="n">df_actions</span><span class="o">.</span><span class="n">sort</span><span class="p">([</span><span class="s2">"user_id"</span><span class="p">,</span> <span class="s2">"point"</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="n">sort_orders</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 
@@ -15722,8 +15878,25 @@ false
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (7, 5)</small>
 <thead>
 <tr>
 <th>
@@ -15763,68 +15936,17 @@ i64
 <tbody>
 <tr>
 <td>
-"7GsubTX9n6"
+&quot;hSQszmDjlU&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T10:12:34+09:00"
+&quot;2021-08-15T12:...
 </td>
 <td>
-"Hoge hoge"
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-"D76FJVQ2j2"
-</td>
-<td>
-"KHPiabVr3o"
-</td>
-<td>
-"2021-08-15T10:23:45+09:00"
-</td>
-<td>
-"Lorem Ipsum"
-</td>
-<td>
-21
-</td>
-</tr>
-<tr>
-<td>
-"6znyhCukd6"
-</td>
-<td>
-"HzZow64HGH"
-</td>
-<td>
-"2021-08-15T11:54:32+09:00"
-</td>
-<td>
-"テスト　テスト"
-</td>
-<td>
-3
-</td>
-</tr>
-<tr>
-<td>
-"hSQszmDjlU"
-</td>
-<td>
-"BcHgeZkTsc"
-</td>
-<td>
-"2021-08-15T12:34:56+09:00"
-</td>
-<td>
-"テスト
-テスト２"
+&quot;テスト
+テスト２&quot;
 </td>
 <td>
 42
@@ -15832,33 +15954,50 @@ i64
 </tr>
 <tr>
 <td>
-"CVqQD0xH2Y"
+&quot;veDQHBOXnG&quot;
 </td>
 <td>
-"HzZow64HGH"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T14:36:52+09:00"
+&quot;2021-08-15T14:...
 </td>
 <td>
-"👑👑💢"
+&quot;foo&quot;
 </td>
 <td>
-49
+4
 </td>
 </tr>
 <tr>
 <td>
-"OoXNK4b3px"
+&quot;7GsubTX9n6&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T14:41:03+09:00"
+&quot;2021-08-15T10:...
 </td>
 <td>
-"🔡"
+&quot;Hoge hoge&quot;
+</td>
+<td>
+1
+</td>
+</tr>
+<tr>
+<td>
+&quot;OoXNK4b3px&quot;
+</td>
+<td>
+&quot;BcHgeZkTsc&quot;
+</td>
+<td>
+&quot;2021-08-15T14:...
+</td>
+<td>
+&quot;🔡&quot;
 </td>
 <td>
 null
@@ -15866,19 +16005,53 @@ null
 </tr>
 <tr>
 <td>
-"veDQHBOXnG"
+&quot;CVqQD0xH2Y&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;HzZow64HGH&quot;
 </td>
 <td>
-"2021-08-15T14:52:12+09:00"
+&quot;2021-08-15T14:...
 </td>
 <td>
-"foo"
+&quot;👑👑💢&quot;
 </td>
 <td>
-4
+49
+</td>
+</tr>
+<tr>
+<td>
+&quot;6znyhCukd6&quot;
+</td>
+<td>
+&quot;HzZow64HGH&quot;
+</td>
+<td>
+&quot;2021-08-15T11:...
+</td>
+<td>
+&quot;テスト　テスト&quot;
+</td>
+<td>
+3
+</td>
+</tr>
+<tr>
+<td>
+&quot;D76FJVQ2j2&quot;
+</td>
+<td>
+&quot;KHPiabVr3o&quot;
+</td>
+<td>
+&quot;2021-08-15T10:...
+</td>
+<td>
+&quot;Lorem Ipsum&quot;
+</td>
+<td>
+21
 </td>
 </tr>
 </tbody>
@@ -15899,9 +16072,17 @@ null
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="%E6%8A%95%E7%A8%BF%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92user_id%E6%98%87%E9%A0%86%E2%86%92point%E9%99%8D%E9%A0%86%E3%81%AB%E3%81%99%E3%82%8B:-sort_values">&#25237;&#31295;&#12487;&#12540;&#12479;&#12434;user_id&#26119;&#38918;&#8594;point&#38477;&#38918;&#12395;&#12377;&#12427;: sort_values<a class="anchor-link" href="#%E6%8A%95%E7%A8%BF%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92user_id%E6%98%87%E9%A0%86%E2%86%92point%E9%99%8D%E9%A0%86%E3%81%AB%E3%81%99%E3%82%8B:-sort_values">&#182;</a></h2><p>引数で渡すリストの各アイテムの順番がそれぞれ対応する(以下例であれば、user_idがascending=True, pointがascending=False)</p>
-<p>reset_indexすることにより、indexを0から振り直している(drop=Trueにより、reset前のindexが列に追加されないようにしている)</p>
-<p>pandas.DataFrame.sort_valuesはpolars.DataFrame.sortに対応する(indexがないため、vauesと明記しなくてよいため)。acsending属性はreverse属性に対応するが、acsendingはTrueで昇順、reverseはTrueで降順と逆に作用する。</p>
+<h2 id="point%E3%81%AE%E5%80%A4%E3%81%AA%E3%81%97(null)%E3%82%92%E7%BD%AE%E3%81%8D%E6%8F%9B%E3%81%88%E3%82%8B:-fill_null">point&#12398;&#20516;&#12394;&#12375;(null)&#12434;&#32622;&#12365;&#25563;&#12360;&#12427;: fill_null<a class="anchor-link" href="#point%E3%81%AE%E5%80%A4%E3%81%AA%E3%81%97(null)%E3%82%92%E7%BD%AE%E3%81%8D%E6%8F%9B%E3%81%88%E3%82%8B:-fill_null">&#182;</a></h2><p>valueで更新したい値を指定するか、strategyで一定ルールで値を埋める。</p>
+<p>fill_nullのstrategy属性に指定できるものは以下。</p>
+<ul>
+<li>&quot;forward&quot;: 直前の値で置き換える</li>
+<li>&quot;backward&quot;: 直後の値で置き換える</li>
+<li>&quot;mean&quot;: 平均値で置き換える</li>
+<li>&quot;max&quot;: 最大値で置き換える</li>
+<li>&quot;min&quot;: 最小値で置き換える</li>
+<li>&quot;one&quot;: 1で置き換える</li>
+<li>&quot;zero&quot;: 0で置き換える</li>
+</ul>
 
 </div>
 </div>
@@ -15914,8 +16095,10 @@ null
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sort_orders</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]</span>
-<span class="n">df_actions</span><span class="o">.</span><span class="n">sort</span><span class="p">([</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="s2">&quot;point&quot;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="n">sort_orders</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_actions</span> <span class="o">=</span> <span class="n">df_actions</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"point"</span><span class="p">)</span><span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">"zero"</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">df_actions</span><span class="p">[[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"point"</span><span class="p">]]</span>
 </pre></div>
 
      </div>
@@ -15929,9 +16112,7 @@ null
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
 
@@ -15951,36 +16132,35 @@ null
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (7, 2)</small>
 <thead>
 <tr>
 <th>
 id
 </th>
 <th>
-user_id
-</th>
-<th>
-date
-</th>
-<th>
-message
-</th>
-<th>
 point
 </th>
 </tr>
 <tr>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
 <td>
 str
 </td>
@@ -15992,51 +16172,7 @@ i64
 <tbody>
 <tr>
 <td>
-"hSQszmDjlU"
-</td>
-<td>
-"BcHgeZkTsc"
-</td>
-<td>
-"2021-08-15T12:34:56+09:00"
-</td>
-<td>
-"テスト
-テスト２"
-</td>
-<td>
-42
-</td>
-</tr>
-<tr>
-<td>
-"veDQHBOXnG"
-</td>
-<td>
-"BcHgeZkTsc"
-</td>
-<td>
-"2021-08-15T14:52:12+09:00"
-</td>
-<td>
-"foo"
-</td>
-<td>
-4
-</td>
-</tr>
-<tr>
-<td>
-"7GsubTX9n6"
-</td>
-<td>
-"BcHgeZkTsc"
-</td>
-<td>
-"2021-08-15T10:12:34+09:00"
-</td>
-<td>
-"Hoge hoge"
+&quot;7GsubTX9n6&quot;
 </td>
 <td>
 1
@@ -16044,50 +16180,15 @@ i64
 </tr>
 <tr>
 <td>
-"OoXNK4b3px"
+&quot;D76FJVQ2j2&quot;
 </td>
 <td>
-"BcHgeZkTsc"
-</td>
-<td>
-"2021-08-15T14:41:03+09:00"
-</td>
-<td>
-"🔡"
-</td>
-<td>
-null
+21
 </td>
 </tr>
 <tr>
 <td>
-"CVqQD0xH2Y"
-</td>
-<td>
-"HzZow64HGH"
-</td>
-<td>
-"2021-08-15T14:36:52+09:00"
-</td>
-<td>
-"👑👑💢"
-</td>
-<td>
-49
-</td>
-</tr>
-<tr>
-<td>
-"6znyhCukd6"
-</td>
-<td>
-"HzZow64HGH"
-</td>
-<td>
-"2021-08-15T11:54:32+09:00"
-</td>
-<td>
-"テスト　テスト"
+&quot;6znyhCukd6&quot;
 </td>
 <td>
 3
@@ -16095,19 +16196,34 @@ null
 </tr>
 <tr>
 <td>
-"D76FJVQ2j2"
+&quot;hSQszmDjlU&quot;
 </td>
 <td>
-"KHPiabVr3o"
+42
+</td>
+</tr>
+<tr>
+<td>
+&quot;CVqQD0xH2Y&quot;
 </td>
 <td>
-"2021-08-15T10:23:45+09:00"
+49
+</td>
+</tr>
+<tr>
+<td>
+&quot;OoXNK4b3px&quot;
 </td>
 <td>
-"Lorem Ipsum"
+0
+</td>
+</tr>
+<tr>
+<td>
+&quot;veDQHBOXnG&quot;
 </td>
 <td>
-21
+4
 </td>
 </tr>
 </tbody>
@@ -16128,16 +16244,8 @@ null
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="point%E3%81%AE%E5%80%A4%E3%81%AA%E3%81%97(null)%E3%82%92%E7%BD%AE%E3%81%8D%E6%8F%9B%E3%81%88%E3%82%8B:-fill_null">point&#12398;&#20516;&#12394;&#12375;(null)&#12434;&#32622;&#12365;&#25563;&#12360;&#12427;: fill_null<a class="anchor-link" href="#point%E3%81%AE%E5%80%A4%E3%81%AA%E3%81%97(null)%E3%82%92%E7%BD%AE%E3%81%8D%E6%8F%9B%E3%81%88%E3%82%8B:-fill_null">&#182;</a></h2><p>fill_nullのstrategy属性に指定できるものは以下。</p>
-<ul>
-<li>"forward": 直前の値で置き換える</li>
-<li>"backward": 直後の値で置き換える</li>
-<li>"mean": 平均値で置き換える</li>
-<li>"max": 最大値で置き換える</li>
-<li>"min": 最小値で置き換える</li>
-<li>"one": 1で置き換える</li>
-<li>"zero": 0で置き換える</li>
-</ul>
+<h2 id="%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%94%E3%81%A8%E3%81%ABpoint%E3%82%92%E5%90%88%E7%AE%97:-groupby">&#12518;&#12540;&#12470;&#12372;&#12392;&#12395;point&#12434;&#21512;&#31639;: groupby<a class="anchor-link" href="#%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%94%E3%81%A8%E3%81%ABpoint%E3%82%92%E5%90%88%E7%AE%97:-groupby">&#182;</a></h2><p>groupbyの引数で指定した&quot;user_id&quot;はIndexに変換される</p>
+<p>aggにて、どのパラメータをどの関数・処理で集計するかを指定する(指定しないパラメータは出力されない)。pandasの場合と異なり、dictで各列に関数を渡す形ではなく、リストで列選択＋処理内容を渡すイメージ。</p>
 
 </div>
 </div>
@@ -16150,8 +16258,11 @@ null
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_actions</span><span class="p">[</span><span class="s2">&quot;point&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_actions</span><span class="o">.</span><span class="n">point</span><span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="s2">&quot;zero&quot;</span><span class="p">)</span>
-<span class="n">df_actions</span><span class="p">[[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;point&quot;</span><span class="p">]]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_actions</span> \
+    <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">"user_id"</span><span class="p">])</span> \
+    <span class="o">.</span><span class="n">agg</span><span class="p">([</span>
+         <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"point"</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="p">])</span>
 </pre></div>
 
      </div>
@@ -16165,22 +16276,7 @@ null
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>/Users/kuki/.local/share/virtualenvs/pandas_processing_example-mmbqAkgW/lib/python3.10/site-packages/polars/internals/frame.py:1675: UserWarning: setting a DataFrame by indexing is deprecated; Consider using DataFrame.with_column
-  warnings.warn(
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
 
@@ -16200,157 +16296,25 @@ null
     .dataframe thead th {
         text-align: right;
     }
-</style>
-<table border="1 "class="dataframe ">
-<thead>
-<tr>
-<th>
-id
-</th>
-<th>
-point
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-i64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-"7GsubTX9n6"
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-"D76FJVQ2j2"
-</td>
-<td>
-21
-</td>
-</tr>
-<tr>
-<td>
-"6znyhCukd6"
-</td>
-<td>
-3
-</td>
-</tr>
-<tr>
-<td>
-"hSQszmDjlU"
-</td>
-<td>
-42
-</td>
-</tr>
-<tr>
-<td>
-"CVqQD0xH2Y"
-</td>
-<td>
-49
-</td>
-</tr>
-<tr>
-<td>
-"OoXNK4b3px"
-</td>
-<td>
-0
-</td>
-</tr>
-<tr>
-<td>
-"veDQHBOXnG"
-</td>
-<td>
-4
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 
-</div>
-
-</div>
-
-</div>
-
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%94%E3%81%A8%E3%81%ABpoint%E3%82%92%E5%90%88%E7%AE%97:-groupby">&#12518;&#12540;&#12470;&#12372;&#12392;&#12395;point&#12434;&#21512;&#31639;: groupby<a class="anchor-link" href="#%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%94%E3%81%A8%E3%81%ABpoint%E3%82%92%E5%90%88%E7%AE%97:-groupby">&#182;</a></h2><p>groupbyの引数で指定した"user_id"はIndexに変換される</p>
-<p>aggにて、どのパラメータをどの関数・処理で集計するかを指定する(指定しないパラメータは出力されない)。pandasの場合と異なり、dictで各列に関数を渡す形ではなく、リストで列選択＋処理内容を渡すイメージ。</p>
-
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_actions</span> \
-    <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;user_id&quot;</span><span class="p">])</span> \
-    <span class="o">.</span><span class="n">agg</span><span class="p">([</span>
-         <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;point&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-    <span class="p">])</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
-
-
-
-<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
+    .dataframe td {
+        white-space: pre;
     }
 
-    .dataframe tbody tr th {
-        vertical-align: top;
+    .dataframe td {
+        padding-top: 0;
     }
 
-    .dataframe thead th {
-        text-align: right;
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
     }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (3, 2)</small>
 <thead>
 <tr>
 <th>
@@ -16372,15 +16336,15 @@ i64
 <tbody>
 <tr>
 <td>
-"KHPiabVr3o"
+&quot;HzZow64HGH&quot;
 </td>
 <td>
-21
+52
 </td>
 </tr>
 <tr>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
 47
@@ -16388,10 +16352,10 @@ i64
 </tr>
 <tr>
 <td>
-"HzZow64HGH"
+&quot;KHPiabVr3o&quot;
 </td>
 <td>
-52
+21
 </td>
 </tr>
 </tbody>
@@ -16430,15 +16394,15 @@ i64
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">user_id</span> <span class="ow">in</span> <span class="n">df_actions</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]:</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df_actions</span><span class="p">[</span><span class="n">df_actions</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">user_id</span><span class="p">][[</span><span class="s2">&quot;point&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">user_id</span> <span class="ow">in</span> <span class="n">df_actions</span><span class="p">[</span><span class="s2">"user_id"</span><span class="p">]:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df_actions</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"user_id"</span><span class="p">)</span> <span class="o">==</span> <span class="n">user_id</span><span class="p">)[[</span><span class="s2">"point"</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"user_id"</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">user_id</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)])))</span>
     <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="s2">&quot;point&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;describe&quot;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="s2">"point"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">"user_id"</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">"describe"</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -16452,11 +16416,9 @@ i64
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
 
 
 
@@ -16474,27 +16436,44 @@ i64
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (3, 6)</small>
 <thead>
 <tr>
 <th>
 user_id
 </th>
 <th>
-max
-</th>
-<th>
 mean
 </th>
 <th>
-median
+std
 </th>
 <th>
 min
 </th>
 <th>
-std
+max
+</th>
+<th>
+median
 </th>
 </tr>
 <tr>
@@ -16521,27 +16500,33 @@ f64
 <tbody>
 <tr>
 <td>
-"BcHgeZkTsc"
-</td>
-<td>
-42.0
+&quot;BcHgeZkTscBcHg...
 </td>
 <td>
 11.75
 </td>
 <td>
-2.5
+20.238165
 </td>
 <td>
 0.0
 </td>
 <td>
-20.238165
+42.0
+</td>
+<td>
+2.5
 </td>
 </tr>
 <tr>
 <td>
-"KHPiabVr3o"
+&quot;KHPiabVr3oKHPi...
+</td>
+<td>
+21.0
+</td>
+<td>
+0.0
 </td>
 <td>
 21.0
@@ -16551,32 +16536,26 @@ f64
 </td>
 <td>
 21.0
-</td>
-<td>
-21.0
-</td>
-<td>
-NaN
 </td>
 </tr>
 <tr>
 <td>
-"HzZow64HGH"
+&quot;HzZow64HGHHzZo...
+</td>
+<td>
+26.0
+</td>
+<td>
+32.526912
+</td>
+<td>
+3.0
 </td>
 <td>
 49.0
 </td>
 <td>
 26.0
-</td>
-<td>
-26.0
-</td>
-<td>
-3.0
-</td>
-<td>
-32.526912
 </td>
 </tr>
 </tbody>
@@ -16606,15 +16585,15 @@ NaN
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_actions</span> \
-    <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;user_id&quot;</span><span class="p">])</span> \
+    <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">"user_id"</span><span class="p">])</span> \
     <span class="o">.</span><span class="n">agg</span><span class="p">([</span>
-        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">(),</span>
-        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;message&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">(),</span>
-        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;point&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">(),</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"date"</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">(),</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"message"</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">(),</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"point"</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">(),</span>
     <span class="p">])</span>
 </pre></div>
 
@@ -16629,11 +16608,9 @@ NaN
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
 
 
 
@@ -16651,8 +16628,25 @@ NaN
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (3, 4)</small>
 <thead>
 <tr>
 <th>
@@ -16686,13 +16680,27 @@ i64
 <tbody>
 <tr>
 <td>
-"HzZow64HGH"
+&quot;KHPiabVr3o&quot;
 </td>
 <td>
-"2021-08-15T11:54:32+09:00"
+&quot;2021-08-15T10:...
 </td>
 <td>
-"テスト　テスト"
+&quot;Lorem Ipsum&quot;
+</td>
+<td>
+21
+</td>
+</tr>
+<tr>
+<td>
+&quot;HzZow64HGH&quot;
+</td>
+<td>
+&quot;2021-08-15T11:...
+</td>
+<td>
+&quot;テスト　テスト&quot;
 </td>
 <td>
 3
@@ -16700,30 +16708,16 @@ i64
 </tr>
 <tr>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T10:12:34+09:00"
+&quot;2021-08-15T10:...
 </td>
 <td>
-"Hoge hoge"
+&quot;Hoge hoge&quot;
 </td>
 <td>
 1
-</td>
-</tr>
-<tr>
-<td>
-"KHPiabVr3o"
-</td>
-<td>
-"2021-08-15T10:23:45+09:00"
-</td>
-<td>
-"Lorem Ipsum"
-</td>
-<td>
-21
 </td>
 </tr>
 </tbody>
@@ -16755,21 +16749,23 @@ i64
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_actions_date</span> <span class="o">=</span> <span class="n">df_actions</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-<span class="n">df_actions_date</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_actions_date</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">Datetime</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S%z&quot;</span>
+<span class="n">df_actions_date</span> <span class="o">=</span> <span class="n">df_actions_date</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"date"</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">Datetime</span><span class="p">,</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S%z"</span>
+    <span class="p">)</span>
 <span class="p">)</span>
-<span class="n">df_actions_date</span><span class="p">[[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;point&quot;</span><span class="p">]]</span> \
+<span class="n">df_actions_date</span><span class="p">[[</span><span class="s2">"date"</span><span class="p">,</span> <span class="s2">"point"</span><span class="p">]]</span> \
     <span class="o">.</span><span class="n">groupby_dynamic</span><span class="p">(</span>
-        <span class="s2">&quot;date&quot;</span><span class="p">,</span> 
-        <span class="n">every</span><span class="o">=</span><span class="s2">&quot;10m&quot;</span><span class="p">,</span> 
-        <span class="n">offset</span><span class="o">=</span><span class="s2">&quot;-5m&quot;</span>    <span class="c1"># FIXME: offset may not work?</span>
+        <span class="s2">"date"</span><span class="p">,</span> 
+        <span class="n">every</span><span class="o">=</span><span class="s2">"10m"</span><span class="p">,</span> 
+        <span class="n">offset</span><span class="o">=</span><span class="s2">"-5m"</span>    <span class="c1"># FIXME: offset may not work?</span>
     <span class="p">)</span> \
     <span class="o">.</span><span class="n">agg</span><span class="p">([</span>
-        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;point&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"point"</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
     <span class="p">])</span>
 </pre></div>
 
@@ -16784,32 +16780,9 @@ i64
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
-<pre>[/Users/runner/work/polars/polars/polars/polars-time/src/windows/groupby.rs:108] start_offset = 0
-[/Users/runner/work/polars/polars/polars/polars-time/src/windows/groupby.rs:109] first = 0
-[/Users/runner/work/polars/polars/polars/polars-time/src/windows/groupby.rs:108] start_offset = 0
-[/Users/runner/work/polars/polars/polars/polars-time/src/windows/groupby.rs:109] first = 1
-[/Users/runner/work/polars/polars/polars/polars-time/src/windows/groupby.rs:108] start_offset = 1
-[/Users/runner/work/polars/polars/polars/polars-time/src/windows/groupby.rs:109] first = 2
-[/Users/runner/work/polars/polars/polars/polars-time/src/windows/groupby.rs:108] start_offset = 2
-[/Users/runner/work/polars/polars/polars/polars-time/src/windows/groupby.rs:109] first = 3
-[/Users/runner/work/polars/polars/polars/polars-time/src/windows/groupby.rs:108] start_offset = 3
-[/Users/runner/work/polars/polars/polars/polars-time/src/windows/groupby.rs:109] first = 4
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
 
 
 
@@ -16827,8 +16800,25 @@ i64
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (6, 2)</small>
 <thead>
 <tr>
 <th>
@@ -16840,7 +16830,7 @@ point
 </tr>
 <tr>
 <td>
-datetime
+datetime[μs]
 </td>
 <td>
 i64
@@ -16923,10 +16913,10 @@ i64
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_reactions_1</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;reactions_1.csv&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_reactions_1</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"reactions_1.csv"</span><span class="p">)</span>
 <span class="n">df_reactions_1</span>
 </pre></div>
 
@@ -16941,11 +16931,9 @@ i64
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
 
 
 
@@ -16963,8 +16951,25 @@ i64
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (3, 6)</small>
 <thead>
 <tr>
 <th>
@@ -17010,39 +17015,19 @@ i64
 <tbody>
 <tr>
 <td>
-"ycV0zbqrL5"
+&quot;ycV0zbqrL5&quot;
 </td>
 <td>
-"7GsubTX9n6"
+&quot;7GsubTX9n6&quot;
 </td>
 <td>
-"AQA7LkexXv"
+&quot;AQA7LkexXv&quot;
 </td>
 <td>
-"2021-08-15T11:52:12+09:00"
+&quot;2021-08-15T11:...
 </td>
 <td>
-"like"
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-"NXXk7iEsMA"
-</td>
-<td>
-"OoXNK4b3px"
-</td>
-<td>
-"AQA7LkexXv"
-</td>
-<td>
-"2021-08-15T13:09:31+09:00"
-</td>
-<td>
-"like"
+&quot;like&quot;
 </td>
 <td>
 1
@@ -17050,19 +17035,39 @@ i64
 </tr>
 <tr>
 <td>
-"Oq9i6DBTBp"
+&quot;NXXk7iEsMA&quot;
 </td>
 <td>
-"OoXNK4b3px"
+&quot;OoXNK4b3px&quot;
 </td>
 <td>
-"AQA7LkexXv"
+&quot;AQA7LkexXv&quot;
 </td>
 <td>
-"2021-08-15T13:21:47+09:00"
+&quot;2021-08-15T13:...
 </td>
 <td>
-"like"
+&quot;like&quot;
+</td>
+<td>
+1
+</td>
+</tr>
+<tr>
+<td>
+&quot;Oq9i6DBTBp&quot;
+</td>
+<td>
+&quot;OoXNK4b3px&quot;
+</td>
+<td>
+&quot;AQA7LkexXv&quot;
+</td>
+<td>
+&quot;2021-08-15T13:...
+</td>
+<td>
+&quot;like&quot;
 </td>
 <td>
 1
@@ -17084,10 +17089,10 @@ i64
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_reactions_2</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;reactions_2.csv&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_reactions_2</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"reactions_2.csv"</span><span class="p">)</span>
 <span class="n">df_reactions_2</span>
 </pre></div>
 
@@ -17102,11 +17107,9 @@ i64
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
 
 
 
@@ -17124,8 +17127,25 @@ i64
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (1, 6)</small>
 <thead>
 <tr>
 <th>
@@ -17171,19 +17191,19 @@ i64
 <tbody>
 <tr>
 <td>
-"jwUcUCuVEq"
+&quot;jwUcUCuVEq&quot;
 </td>
 <td>
-"D76FJVQ2j2"
+&quot;D76FJVQ2j2&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T16:21:48+09:00"
+&quot;2021-08-15T16:...
 </td>
 <td>
-"comment"
+&quot;comment&quot;
 </td>
 <td>
 3
@@ -17216,7 +17236,7 @@ i64
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_reactions</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_reactions_1</span><span class="p">,</span> <span class="n">df_reactions_2</span><span class="p">])</span>
@@ -17234,11 +17254,9 @@ i64
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
 
 
 
@@ -17256,8 +17274,25 @@ i64
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (4, 6)</small>
 <thead>
 <tr>
 <th>
@@ -17303,39 +17338,19 @@ i64
 <tbody>
 <tr>
 <td>
-"ycV0zbqrL5"
+&quot;ycV0zbqrL5&quot;
 </td>
 <td>
-"7GsubTX9n6"
+&quot;7GsubTX9n6&quot;
 </td>
 <td>
-"AQA7LkexXv"
+&quot;AQA7LkexXv&quot;
 </td>
 <td>
-"2021-08-15T11:52:12+09:00"
+&quot;2021-08-15T11:...
 </td>
 <td>
-"like"
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-"NXXk7iEsMA"
-</td>
-<td>
-"OoXNK4b3px"
-</td>
-<td>
-"AQA7LkexXv"
-</td>
-<td>
-"2021-08-15T13:09:31+09:00"
-</td>
-<td>
-"like"
+&quot;like&quot;
 </td>
 <td>
 1
@@ -17343,19 +17358,19 @@ i64
 </tr>
 <tr>
 <td>
-"Oq9i6DBTBp"
+&quot;NXXk7iEsMA&quot;
 </td>
 <td>
-"OoXNK4b3px"
+&quot;OoXNK4b3px&quot;
 </td>
 <td>
-"AQA7LkexXv"
+&quot;AQA7LkexXv&quot;
 </td>
 <td>
-"2021-08-15T13:21:47+09:00"
+&quot;2021-08-15T13:...
 </td>
 <td>
-"like"
+&quot;like&quot;
 </td>
 <td>
 1
@@ -17363,19 +17378,39 @@ i64
 </tr>
 <tr>
 <td>
-"jwUcUCuVEq"
+&quot;Oq9i6DBTBp&quot;
 </td>
 <td>
-"D76FJVQ2j2"
+&quot;OoXNK4b3px&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;AQA7LkexXv&quot;
 </td>
 <td>
-"2021-08-15T16:21:48+09:00"
+&quot;2021-08-15T13:...
 </td>
 <td>
-"comment"
+&quot;like&quot;
+</td>
+<td>
+1
+</td>
+</tr>
+<tr>
+<td>
+&quot;jwUcUCuVEq&quot;
+</td>
+<td>
+&quot;D76FJVQ2j2&quot;
+</td>
+<td>
+&quot;BcHgeZkTsc&quot;
+</td>
+<td>
+&quot;2021-08-15T16:...
+</td>
+<td>
+&quot;comment&quot;
 </td>
 <td>
 3
@@ -17421,24 +17456,25 @@ i64
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_reactions_renamed</span> <span class="o">=</span> <span class="n">df_reactions</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span>
-    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;reaction_id&quot;</span><span class="p">,</span> 
-    <span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="s2">&quot;reaction_user_id&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;reaction_date&quot;</span><span class="p">,</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"reaction_id"</span><span class="p">,</span> 
+    <span class="s2">"user_id"</span><span class="p">:</span> <span class="s2">"reaction_user_id"</span><span class="p">,</span>
+    <span class="s2">"date"</span><span class="p">:</span> <span class="s2">"reaction_date"</span><span class="p">,</span>
 <span class="p">})</span>
-<span class="n">df_actions_renamed</span> <span class="o">=</span> <span class="n">df_actions</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;action_id&quot;</span><span class="p">})</span>
+<span class="n">df_actions_renamed</span> <span class="o">=</span> <span class="n">df_actions</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"action_id"</span><span class="p">})</span>
 
 <span class="n">df_actions_merged</span> <span class="o">=</span> <span class="n">df_actions_renamed</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
     <span class="n">df_reactions_renamed</span><span class="p">,</span>
-    <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;action_id&quot;</span><span class="p">],</span>
-    <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span>
+    <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">"action_id"</span><span class="p">],</span>
+    <span class="n">how</span><span class="o">=</span><span class="s2">"left"</span>
 <span class="p">)</span>
 
-<span class="n">df_actions_merged</span><span class="o">.</span><span class="n">reward</span> <span class="o">=</span> \
-    <span class="n">df_actions_merged</span><span class="o">.</span><span class="n">reward</span><span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="s2">&quot;zero&quot;</span><span class="p">)</span>
+<span class="n">df_actions_merged</span> <span class="o">=</span> <span class="n">df_actions_merged</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+    <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"reward"</span><span class="p">)</span><span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">)</span>
 <span class="n">df_actions_merged</span>
 </pre></div>
 
@@ -17453,11 +17489,9 @@ i64
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
 
 
 
@@ -17475,8 +17509,25 @@ i64
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (8, 10)</small>
 <thead>
 <tr>
 <th>
@@ -17546,31 +17597,31 @@ i64
 <tbody>
 <tr>
 <td>
-"7GsubTX9n6"
+&quot;7GsubTX9n6&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T10:12:34+09:00"
+&quot;2021-08-15T10:...
 </td>
 <td>
-"Hoge hoge"
+&quot;Hoge hoge&quot;
 </td>
 <td>
 1
 </td>
 <td>
-"ycV0zbqrL5"
+&quot;ycV0zbqrL5&quot;
 </td>
 <td>
-"AQA7LkexXv"
+&quot;AQA7LkexXv&quot;
 </td>
 <td>
-"2021-08-15T11:52:12+09:00"
+&quot;2021-08-15T11:...
 </td>
 <td>
-"like"
+&quot;like&quot;
 </td>
 <td>
 1
@@ -17578,31 +17629,31 @@ i64
 </tr>
 <tr>
 <td>
-"D76FJVQ2j2"
+&quot;D76FJVQ2j2&quot;
 </td>
 <td>
-"KHPiabVr3o"
+&quot;KHPiabVr3o&quot;
 </td>
 <td>
-"2021-08-15T10:23:45+09:00"
+&quot;2021-08-15T10:...
 </td>
 <td>
-"Lorem Ipsum"
+&quot;Lorem Ipsum&quot;
 </td>
 <td>
 21
 </td>
 <td>
-"jwUcUCuVEq"
+&quot;jwUcUCuVEq&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T16:21:48+09:00"
+&quot;2021-08-15T16:...
 </td>
 <td>
-"comment"
+&quot;comment&quot;
 </td>
 <td>
 3
@@ -17610,16 +17661,16 @@ i64
 </tr>
 <tr>
 <td>
-"6znyhCukd6"
+&quot;6znyhCukd6&quot;
 </td>
 <td>
-"HzZow64HGH"
+&quot;HzZow64HGH&quot;
 </td>
 <td>
-"2021-08-15T11:54:32+09:00"
+&quot;2021-08-15T11:...
 </td>
 <td>
-"テスト　テスト"
+&quot;テスト　テスト&quot;
 </td>
 <td>
 3
@@ -17637,22 +17688,22 @@ null
 null
 </td>
 <td>
-null
+0
 </td>
 </tr>
 <tr>
 <td>
-"hSQszmDjlU"
+&quot;hSQszmDjlU&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T12:34:56+09:00"
+&quot;2021-08-15T12:...
 </td>
 <td>
-"テスト
-テスト２"
+&quot;テスト
+テスト２&quot;
 </td>
 <td>
 42
@@ -17670,21 +17721,21 @@ null
 null
 </td>
 <td>
-null
+0
 </td>
 </tr>
 <tr>
 <td>
-"CVqQD0xH2Y"
+&quot;CVqQD0xH2Y&quot;
 </td>
 <td>
-"HzZow64HGH"
+&quot;HzZow64HGH&quot;
 </td>
 <td>
-"2021-08-15T14:36:52+09:00"
+&quot;2021-08-15T14:...
 </td>
 <td>
-"👑👑💢"
+&quot;👑👑💢&quot;
 </td>
 <td>
 49
@@ -17702,36 +17753,36 @@ null
 null
 </td>
 <td>
-null
+0
 </td>
 </tr>
 <tr>
 <td>
-"OoXNK4b3px"
+&quot;OoXNK4b3px&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T14:41:03+09:00"
+&quot;2021-08-15T14:...
 </td>
 <td>
-"🔡"
+&quot;🔡&quot;
 </td>
 <td>
 0
 </td>
 <td>
-"NXXk7iEsMA"
+&quot;NXXk7iEsMA&quot;
 </td>
 <td>
-"AQA7LkexXv"
+&quot;AQA7LkexXv&quot;
 </td>
 <td>
-"2021-08-15T13:09:31+09:00"
+&quot;2021-08-15T13:...
 </td>
 <td>
-"like"
+&quot;like&quot;
 </td>
 <td>
 1
@@ -17739,31 +17790,31 @@ null
 </tr>
 <tr>
 <td>
-"OoXNK4b3px"
+&quot;OoXNK4b3px&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T14:41:03+09:00"
+&quot;2021-08-15T14:...
 </td>
 <td>
-"🔡"
+&quot;🔡&quot;
 </td>
 <td>
 0
 </td>
 <td>
-"Oq9i6DBTBp"
+&quot;Oq9i6DBTBp&quot;
 </td>
 <td>
-"AQA7LkexXv"
+&quot;AQA7LkexXv&quot;
 </td>
 <td>
-"2021-08-15T13:21:47+09:00"
+&quot;2021-08-15T13:...
 </td>
 <td>
-"like"
+&quot;like&quot;
 </td>
 <td>
 1
@@ -17771,16 +17822,16 @@ null
 </tr>
 <tr>
 <td>
-"veDQHBOXnG"
+&quot;veDQHBOXnG&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T14:52:12+09:00"
+&quot;2021-08-15T14:...
 </td>
 <td>
-"foo"
+&quot;foo&quot;
 </td>
 <td>
 4
@@ -17798,7 +17849,7 @@ null
 null
 </td>
 <td>
-null
+0
 </td>
 </tr>
 </tbody>
@@ -17820,7 +17871,7 @@ null
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="%E4%B8%8A%E8%A8%98%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AB%E3%83%A6%E3%83%BC%E3%82%B6%E5%90%8D%E3%82%92%E8%BF%BD%E5%8A%A0:-join">&#19978;&#35352;&#12487;&#12540;&#12479;&#12395;&#12518;&#12540;&#12470;&#21517;&#12434;&#36861;&#21152;: join<a class="anchor-link" href="#%E4%B8%8A%E8%A8%98%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AB%E3%83%A6%E3%83%BC%E3%82%B6%E5%90%8D%E3%82%92%E8%BF%BD%E5%8A%A0:-join">&#182;</a></h2><p>df_usersにあるemail, type, leavedは以後使わない</p>
-<p>そのため、"id", "name"列以外をdropしている(下記コードの1行目)</p>
+<p>そのため、&quot;id&quot;, &quot;name&quot;列以外をdropしている(下記コードの1行目)</p>
 <p>df_actions_mergedにあるuser_idのみをmerge対象にしたいので、左結合(df_actions_merged.user_idを基準にマージ)する</p>
 
 </div>
@@ -17831,15 +17882,15 @@ null
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_users_dropped</span> <span class="o">=</span> <span class="n">df_users</span><span class="p">[[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">]]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_users_dropped</span> <span class="o">=</span> <span class="n">df_users</span><span class="p">[[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">]]</span>
 <span class="n">df_merged</span> <span class="o">=</span> <span class="n">df_actions_merged</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-    <span class="n">df_users_dropped</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;user_id&quot;</span><span class="p">}),</span>
-    <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">],</span>
-    <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">],</span>
-    <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+    <span class="n">df_users_dropped</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"user_id"</span><span class="p">}),</span>
+    <span class="n">left_on</span><span class="o">=</span><span class="p">[</span><span class="s2">"user_id"</span><span class="p">],</span>
+    <span class="n">right_on</span><span class="o">=</span><span class="p">[</span><span class="s2">"user_id"</span><span class="p">],</span>
+    <span class="n">how</span><span class="o">=</span><span class="s2">"left"</span><span class="p">)</span>
 <span class="n">df_merged</span>
 </pre></div>
 
@@ -17854,11 +17905,9 @@ null
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
 
 
 
@@ -17876,8 +17925,25 @@ null
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (8, 11)</small>
 <thead>
 <tr>
 <th>
@@ -17953,122 +18019,122 @@ str
 <tbody>
 <tr>
 <td>
-"7GsubTX9n6"
+&quot;7GsubTX9n6&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T10:12:34+09:00"
+&quot;2021-08-15T10:...
 </td>
 <td>
-"Hoge hoge"
-</td>
-<td>
-1
-</td>
-<td>
-"ycV0zbqrL5"
-</td>
-<td>
-"AQA7LkexXv"
-</td>
-<td>
-"2021-08-15T11:52:12+09:00"
-</td>
-<td>
-"like"
+&quot;Hoge hoge&quot;
 </td>
 <td>
 1
 </td>
 <td>
-"アリス"
+&quot;ycV0zbqrL5&quot;
+</td>
+<td>
+&quot;AQA7LkexXv&quot;
+</td>
+<td>
+&quot;2021-08-15T11:...
+</td>
+<td>
+&quot;like&quot;
+</td>
+<td>
+1
+</td>
+<td>
+&quot;アリス&quot;
 </td>
 </tr>
 <tr>
 <td>
-"D76FJVQ2j2"
+&quot;D76FJVQ2j2&quot;
 </td>
 <td>
-"KHPiabVr3o"
+&quot;KHPiabVr3o&quot;
 </td>
 <td>
-"2021-08-15T10:23:45+09:00"
+&quot;2021-08-15T10:...
 </td>
 <td>
-"Lorem Ipsum"
+&quot;Lorem Ipsum&quot;
 </td>
 <td>
 21
 </td>
 <td>
-"jwUcUCuVEq"
+&quot;jwUcUCuVEq&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T16:21:48+09:00"
+&quot;2021-08-15T16:...
 </td>
 <td>
-"comment"
-</td>
-<td>
-3
-</td>
-<td>
-"ボブ"
-</td>
-</tr>
-<tr>
-<td>
-"6znyhCukd6"
-</td>
-<td>
-"HzZow64HGH"
-</td>
-<td>
-"2021-08-15T11:54:32+09:00"
-</td>
-<td>
-"テスト　テスト"
+&quot;comment&quot;
 </td>
 <td>
 3
 </td>
 <td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-"エリザベス"
+&quot;ボブ&quot;
 </td>
 </tr>
 <tr>
 <td>
-"hSQszmDjlU"
+&quot;6znyhCukd6&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;HzZow64HGH&quot;
 </td>
 <td>
-"2021-08-15T12:34:56+09:00"
+&quot;2021-08-15T11:...
 </td>
 <td>
-"テスト
-テスト２"
+&quot;テスト　テスト&quot;
+</td>
+<td>
+3
+</td>
+<td>
+null
+</td>
+<td>
+null
+</td>
+<td>
+null
+</td>
+<td>
+null
+</td>
+<td>
+0
+</td>
+<td>
+&quot;エリザベス&quot;
+</td>
+</tr>
+<tr>
+<td>
+&quot;hSQszmDjlU&quot;
+</td>
+<td>
+&quot;BcHgeZkTsc&quot;
+</td>
+<td>
+&quot;2021-08-15T12:...
+</td>
+<td>
+&quot;テスト
+テスト２&quot;
 </td>
 <td>
 42
@@ -18086,24 +18152,24 @@ null
 null
 </td>
 <td>
-null
+0
 </td>
 <td>
-"アリス"
+&quot;アリス&quot;
 </td>
 </tr>
 <tr>
 <td>
-"CVqQD0xH2Y"
+&quot;CVqQD0xH2Y&quot;
 </td>
 <td>
-"HzZow64HGH"
+&quot;HzZow64HGH&quot;
 </td>
 <td>
-"2021-08-15T14:36:52+09:00"
+&quot;2021-08-15T14:...
 </td>
 <td>
-"👑👑💢"
+&quot;👑👑💢&quot;
 </td>
 <td>
 49
@@ -18121,94 +18187,94 @@ null
 null
 </td>
 <td>
-null
+0
 </td>
 <td>
-"エリザベス"
+&quot;エリザベス&quot;
 </td>
 </tr>
 <tr>
 <td>
-"OoXNK4b3px"
+&quot;OoXNK4b3px&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T14:41:03+09:00"
+&quot;2021-08-15T14:...
 </td>
 <td>
-"🔡"
+&quot;🔡&quot;
 </td>
 <td>
 0
 </td>
 <td>
-"NXXk7iEsMA"
+&quot;NXXk7iEsMA&quot;
 </td>
 <td>
-"AQA7LkexXv"
+&quot;AQA7LkexXv&quot;
 </td>
 <td>
-"2021-08-15T13:09:31+09:00"
+&quot;2021-08-15T13:...
 </td>
 <td>
-"like"
+&quot;like&quot;
 </td>
 <td>
 1
 </td>
 <td>
-"アリス"
+&quot;アリス&quot;
 </td>
 </tr>
 <tr>
 <td>
-"OoXNK4b3px"
+&quot;OoXNK4b3px&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T14:41:03+09:00"
+&quot;2021-08-15T14:...
 </td>
 <td>
-"🔡"
+&quot;🔡&quot;
 </td>
 <td>
 0
 </td>
 <td>
-"Oq9i6DBTBp"
+&quot;Oq9i6DBTBp&quot;
 </td>
 <td>
-"AQA7LkexXv"
+&quot;AQA7LkexXv&quot;
 </td>
 <td>
-"2021-08-15T13:21:47+09:00"
+&quot;2021-08-15T13:...
 </td>
 <td>
-"like"
+&quot;like&quot;
 </td>
 <td>
 1
 </td>
 <td>
-"アリス"
+&quot;アリス&quot;
 </td>
 </tr>
 <tr>
 <td>
-"veDQHBOXnG"
+&quot;veDQHBOXnG&quot;
 </td>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
-"2021-08-15T14:52:12+09:00"
+&quot;2021-08-15T14:...
 </td>
 <td>
-"foo"
+&quot;foo&quot;
 </td>
 <td>
 4
@@ -18226,10 +18292,10 @@ null
 null
 </td>
 <td>
-null
+0
 </td>
 <td>
-"アリス"
+&quot;アリス&quot;
 </td>
 </tr>
 </tbody>
@@ -18259,15 +18325,15 @@ null
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_sum</span> <span class="o">=</span> <span class="n">df_merged</span> \
-    <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;user_id&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"user_id"</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">agg</span><span class="p">([</span>
-        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;point&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;reward&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+        <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"point"</span><span class="p">)</span><span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"reward"</span><span class="p">)</span><span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
     <span class="p">])</span>
-<span class="n">df_sum</span> <span class="o">=</span> <span class="n">df_sum</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;point&quot;</span><span class="p">:</span> <span class="s2">&quot;activity&quot;</span><span class="p">})</span>
+<span class="n">df_sum</span> <span class="o">=</span> <span class="n">df_sum</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">"point"</span><span class="p">:</span> <span class="s2">"activity"</span><span class="p">})</span>
 <span class="n">df_sum</span>
 </pre></div>
 
@@ -18282,11 +18348,9 @@ null
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
 
 
 
@@ -18304,8 +18368,25 @@ null
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (3, 2)</small>
 <thead>
 <tr>
 <th>
@@ -18327,7 +18408,15 @@ i64
 <tbody>
 <tr>
 <td>
-"BcHgeZkTsc"
+&quot;HzZow64HGH&quot;
+</td>
+<td>
+52
+</td>
+</tr>
+<tr>
+<td>
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
 50
@@ -18335,18 +18424,10 @@ i64
 </tr>
 <tr>
 <td>
-"KHPiabVr3o"
+&quot;KHPiabVr3o&quot;
 </td>
 <td>
 24
-</td>
-</tr>
-<tr>
-<td>
-"HzZow64HGH"
-</td>
-<td>
-52
 </td>
 </tr>
 </tbody>
@@ -18376,16 +18457,16 @@ i64
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_ranking</span> <span class="o">=</span> <span class="n">df_sum</span> \
     <span class="o">.</span><span class="n">join</span><span class="p">(</span>
-        <span class="n">df_users_dropped</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;user_id&quot;</span><span class="p">}),</span>
-        <span class="n">on</span><span class="o">=</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span>
-        <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span>
+        <span class="n">df_users_dropped</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"user_id"</span><span class="p">}),</span>
+        <span class="n">on</span><span class="o">=</span><span class="s2">"user_id"</span><span class="p">,</span>
+        <span class="n">how</span><span class="o">=</span><span class="s2">"left"</span>
     <span class="p">)</span> \
-    <span class="o">.</span><span class="n">sort</span><span class="p">([</span><span class="s2">&quot;activity&quot;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">sort</span><span class="p">([</span><span class="s2">"activity"</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">df_ranking</span>
 </pre></div>
 
@@ -18400,11 +18481,9 @@ i64
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[25]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
 
 
 
@@ -18422,8 +18501,25 @@ i64
     .dataframe thead th {
         text-align: right;
     }
+
+    .dataframe td {
+        white-space: pre;
+    }
+
+    .dataframe td {
+        padding-top: 0;
+    }
+
+    .dataframe td {
+        padding-bottom: 0;
+    }
+
+    .dataframe td {
+        line-height: 95%;
+    }
 </style>
-<table border="1 "class="dataframe ">
+<table border="1" class="dataframe" >
+<small>shape: (3, 3)</small>
 <thead>
 <tr>
 <th>
@@ -18451,35 +18547,35 @@ str
 <tbody>
 <tr>
 <td>
-"HzZow64HGH"
+&quot;HzZow64HGH&quot;
 </td>
 <td>
 52
 </td>
 <td>
-"エリザベス"
+&quot;エリザベス&quot;
 </td>
 </tr>
 <tr>
 <td>
-"BcHgeZkTsc"
+&quot;BcHgeZkTsc&quot;
 </td>
 <td>
 50
 </td>
 <td>
-"アリス"
+&quot;アリス&quot;
 </td>
 </tr>
 <tr>
 <td>
-"KHPiabVr3o"
+&quot;KHPiabVr3o&quot;
 </td>
 <td>
 24
 </td>
 <td>
-"ボブ"
+&quot;ボブ&quot;
 </td>
 </tr>
 </tbody>
@@ -18491,22 +18587,6 @@ str
 
 </div>
 
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-     </div>
-</div>
-</div>
 </div>
 
 </div>
