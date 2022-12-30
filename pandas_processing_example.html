@@ -36,6 +36,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .highlight .m { color: var(--jp-mirror-editor-number-color) } /* Literal.Number */
 .highlight .s { color: var(--jp-mirror-editor-string-color) } /* Literal.String */
 .highlight .ow { color: var(--jp-mirror-editor-operator-color); font-weight: bold } /* Operator.Word */
+.highlight .pm { color: var(--jp-mirror-editor-punctuation-color) } /* Punctuation.Marker */
 .highlight .w { color: var(--jp-mirror-editor-variable-color) } /* Text.Whitespace */
 .highlight .mb { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Bin */
 .highlight .mf { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Float */
@@ -14464,10 +14465,6 @@ a.anchor-link {
   display: none;
 }
 
-.highlight  {
-  margin: 0.4em;
-}
-
 /* Input area styling */
 .jp-InputArea {
   overflow: hidden;
@@ -14477,9 +14474,26 @@ a.anchor-link {
   overflow: hidden;
 }
 
-.CodeMirror pre {
+.CodeMirror.cm-s-jupyter .highlight pre {
+/* weird, but --jp-code-padding defined to be 5px but 4px horizontal padding is hardcoded for pre.CodeMirror-line */
+  padding: var(--jp-code-padding) 4px;
   margin: 0;
-  padding: 0;
+
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+
+}
+
+.jp-OutputArea-output pre {
+  line-height: inherit;
+  font-family: inherit;
+}
+
+.jp-RenderedText pre {
+  color: var(--jp-content-font-color1);
+  font-size: var(--jp-code-font-size);
 }
 
 /* Using table instead of flexbox so that we can use break-inside property */
@@ -14525,6 +14539,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
   display: none;
 }
 
+@page {
+    margin: 0.5in; /* Margin for each printed piece of paper */
+}
+
 @media print {
   .jp-Cell-inputWrapper,
   .jp-Cell-outputWrapper {
@@ -14559,12 +14577,12 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
                 },
                 displayAlign: 'center',
                 CommonHTML: {
-                    linebreaks: { 
-                    automatic: true 
+                    linebreaks: {
+                    automatic: true
                     }
                 }
             });
-        
+
             MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
         }
     }
@@ -14581,10 +14599,13 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="%E6%9C%AC%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">&#26412;&#12467;&#12540;&#12489;&#12395;&#12388;&#12356;&#12390;<a class="anchor-link" href="#%E6%9C%AC%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">&#182;</a></h1><p><a href="https://github.com/pandas-dev/pandas">pandas</a>ライブラリを使ってユーザ一覧、ユーザ操作一覧、リアクション一覧を集計するサンプル</p>
 <p>幾つかの例を踏まえつつ、ユーザごとの活動度(actions.point + reactions.reward)のランキングを出すことを目標とする</p>
-<h2 id="%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%96%A2%E4%BF%82">&#12487;&#12540;&#12479;&#12398;&#38306;&#20418;<a class="anchor-link" href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%96%A2%E4%BF%82">&#182;</a></h2>
-<pre><code>&lt; users &gt; (親)
+<h2 id="%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4">&#26356;&#26032;&#23653;&#27508;<a class="anchor-link" href="#%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4">&#182;</a></h2><ul>
+<li>2022.12.30 pandas v1.5.2で動作を検証、v1.5からの集計関数でnumeric_only属性を明示的に指定すべき警告<a href="https://pandas.pydata.org/docs/whatsnew/v1.5.0.html#numeric-only-default-value">(公式リファレンス)</a>について追記</li>
+</ul>
+<h2 id="%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%96%A2%E4%BF%82">&#12487;&#12540;&#12479;&#12398;&#38306;&#20418;<a class="anchor-link" href="#%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%96%A2%E4%BF%82">&#182;</a></h2><pre><code>&lt; users &gt; (親)
 | --- &lt; actions &gt; (子) 
-  | --- &lt; reactions &gt; (孫)</code></pre>
+  | --- &lt; reactions &gt; (孫)
+</code></pre>
 <h2 id="%E3%83%87%E3%83%BC%E3%82%BF%E6%A7%8B%E9%80%A0">&#12487;&#12540;&#12479;&#27083;&#36896;<a class="anchor-link" href="#%E3%83%87%E3%83%BC%E3%82%BF%E6%A7%8B%E9%80%A0">&#182;</a></h2><ul>
 <li>users.csv: ユーザ一覧<ul>
 <li>id: ユーザID。常にユニークな文字列</li>
@@ -14668,9 +14689,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[2]:</div>
 
@@ -14793,9 +14812,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -14829,7 +14846,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="enterprise-%E3%83%A6%E3%83%BC%E3%82%B6-or-%E9%80%80%E4%BC%9A%E6%B8%88%E3%81%BF%E3%83%A6%E3%83%BC%E3%82%B6%E3%82%92%E5%8F%96%E3%82%8A%E5%87%BA%E3%81%99:-query%E7%AD%89">enterprise &#12518;&#12540;&#12470; or &#36864;&#20250;&#28168;&#12415;&#12518;&#12540;&#12470;&#12434;&#21462;&#12426;&#20986;&#12377;: query&#31561;<a class="anchor-link" href="#enterprise-%E3%83%A6%E3%83%BC%E3%82%B6-or-%E9%80%80%E4%BC%9A%E6%B8%88%E3%81%BF%E3%83%A6%E3%83%BC%E3%82%B6%E3%82%92%E5%8F%96%E3%82%8A%E5%87%BA%E3%81%99:-query%E7%AD%89">&#182;</a></h2><p>queryの場合、条件を文字列で渡す</p>
-<p>複数条件指定時、ANDは"&amp;"、ORは"|"でつなぐ</p>
+<p>複数条件指定時、ANDは&quot;&amp;&quot;、ORは&quot;|&quot;でつなぐ</p>
 <p>条件式は必ず()で括らないと意図した評価順にならず、<code>TypeError</code>となる</p>
 
 </div>
@@ -14857,9 +14874,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
 
@@ -14951,9 +14966,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 
@@ -15065,9 +15078,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
 
@@ -15117,9 +15128,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
 
@@ -15176,9 +15185,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15228,9 +15235,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 
@@ -15272,9 +15277,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
 
@@ -15298,7 +15301,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%AB%E3%82%88%E3%82%8B%E6%93%8D%E4%BD%9C%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%A7%A3%E6%9E%90">&#12518;&#12540;&#12470;&#12395;&#12424;&#12427;&#25805;&#20316;&#12487;&#12540;&#12479;&#12398;&#35299;&#26512;<a class="anchor-link" href="#%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%AB%E3%82%88%E3%82%8B%E6%93%8D%E4%BD%9C%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%A7%A3%E6%9E%90">&#182;</a></h1><p>id="OoXNK4b3px"について、actions.csv内でpointが空なのでNaNになる</p>
+<h1 id="%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%AB%E3%82%88%E3%82%8B%E6%93%8D%E4%BD%9C%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%A7%A3%E6%9E%90">&#12518;&#12540;&#12470;&#12395;&#12424;&#12427;&#25805;&#20316;&#12487;&#12540;&#12479;&#12398;&#35299;&#26512;<a class="anchor-link" href="#%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%AB%E3%82%88%E3%82%8B%E6%93%8D%E4%BD%9C%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%A7%A3%E6%9E%90">&#182;</a></h1><p>id=&quot;OoXNK4b3px&quot;について、actions.csv内でpointが空なのでNaNになる</p>
 <p>NaNはfloat型なので、暗黙の型変換でpointはfloat型になる</p>
 
 </div>
@@ -15327,9 +15330,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
 
@@ -15466,9 +15467,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 
@@ -15603,9 +15602,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
 
@@ -15688,7 +15685,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%94%E3%81%A8%E3%81%ABpoint%E3%82%92%E5%90%88%E7%AE%97:-groupby">&#12518;&#12540;&#12470;&#12372;&#12392;&#12395;point&#12434;&#21512;&#31639;: groupby<a class="anchor-link" href="#%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%94%E3%81%A8%E3%81%ABpoint%E3%82%92%E5%90%88%E7%AE%97:-groupby">&#182;</a></h2><p>groupbyの引数で指定した"user_id"はIndexに変換される</p>
+<h2 id="%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%94%E3%81%A8%E3%81%ABpoint%E3%82%92%E5%90%88%E7%AE%97:-groupby">&#12518;&#12540;&#12470;&#12372;&#12392;&#12395;point&#12434;&#21512;&#31639;: groupby<a class="anchor-link" href="#%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%94%E3%81%A8%E3%81%ABpoint%E3%82%92%E5%90%88%E7%AE%97:-groupby">&#182;</a></h2><p>groupbyの引数で指定した&quot;user_id&quot;はIndexに変換される</p>
 <p>aggにて、どのパラメータをどの関数・処理で集計するかを指定する(指定しないパラメータは出力されない)</p>
 <p>Indexに変換したくない場合、as_index=Falseを指定する(後述)</p>
 
@@ -15721,9 +15718,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
 
@@ -15816,9 +15811,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
 
@@ -15957,9 +15950,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
 
@@ -16032,6 +16023,11 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="10%E5%88%86%E3%81%94%E3%81%A8%E3%81%AEpoint%E5%80%A4%E3%81%AE%E5%B0%8F%E8%A8%88%E3%82%92%E5%87%BA%E5%8A%9B:-to_datetime,-resample">10&#20998;&#12372;&#12392;&#12398;point&#20516;&#12398;&#23567;&#35336;&#12434;&#20986;&#21147;: to_datetime, resample<a class="anchor-link" href="#10%E5%88%86%E3%81%94%E3%81%A8%E3%81%AEpoint%E5%80%A4%E3%81%AE%E5%B0%8F%E8%A8%88%E3%82%92%E5%87%BA%E5%8A%9B:-to_datetime,-resample">&#182;</a></h2><p>resample + sumにより、10分ごとの区間でpointの小計を取る。</p>
 <p>-5Minのoffsetを入れることで、最初action日時=2021-08-15T10:12:34+09:00を含む区間として10:05(=10:10 - 0:05)から集計していく</p>
+<p>※ v1.5から、集約関数(min, max, sumなど)を実行するときに明示的に<code>numeric_only</code>の真偽を指定しなければいけない<a href="https://pandas.pydata.org/docs/whatsnew/v1.5.0.html#numeric-only-default-value">(公式リファレンス)</a>。<code>numeric_only=None</code>(未指定)の場合、データによってnumeric_onlyの真偽値が自動設定されてしまい、挙動が一定にならないため。例えば、あるDataFrameではnumericな列のみ集計し、別のDataFrameでは全列を集計する挙動になり得る。</p>
+<p>もし未指定の場合、以下の様に警告が出るようになっている。</p>
+<pre><code>/.../T/ipykernel_xxx/xxx.py:3: FutureWarning: The default value of numeric_only in DataFrameGroupBy.sum is deprecated. In a future version, numeric_only will default to False. Either specify numeric_only or select only columns which should be valid for the function.
+  df_actions_date.resample(&quot;10Min&quot;, offset=&quot;-5Min&quot;).sum()
+</code></pre>
 
 </div>
 </div>
@@ -16046,7 +16042,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_actions_date</span> <span class="o">=</span> <span class="n">df_actions</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">df_actions_date</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_actions</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
-<span class="n">df_actions_date</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">&quot;10Min&quot;</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="s2">&quot;-5Min&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">df_actions_date</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">&quot;10Min&quot;</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="s2">&quot;-5Min&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -16060,9 +16056,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
 
@@ -16256,9 +16250,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
 
@@ -16353,9 +16345,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
 
@@ -16443,9 +16433,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
 
@@ -16582,9 +16570,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
 
@@ -16745,7 +16731,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="%E4%B8%8A%E8%A8%98%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AB%E3%83%A6%E3%83%BC%E3%82%B6%E5%90%8D%E3%82%92%E8%BF%BD%E5%8A%A0:-merge">&#19978;&#35352;&#12487;&#12540;&#12479;&#12395;&#12518;&#12540;&#12470;&#21517;&#12434;&#36861;&#21152;: merge<a class="anchor-link" href="#%E4%B8%8A%E8%A8%98%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AB%E3%83%A6%E3%83%BC%E3%82%B6%E5%90%8D%E3%82%92%E8%BF%BD%E5%8A%A0:-merge">&#182;</a></h2><p>df_usersにあるemail, type, leavedは以後使わない</p>
-<p>そのため、"id", "name"列以外をdropしている(下記コードの1行目)</p>
+<p>そのため、&quot;id&quot;, &quot;name&quot;列以外をdropしている(下記コードの1行目)</p>
 <p>df_actions_mergedにあるuser_idのみをmerge対象にしたいので、左結合(df_actions_merged.user_idを基準にマージ)する</p>
 
 </div>
@@ -16779,9 +16765,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
 
@@ -16953,26 +16937,26 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <h2 id="%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%94%E3%81%A8%E3%81%AE%E6%B4%BB%E5%8B%95%E9%87%8F(point-+-reward)%E3%82%92%E8%A8%88%E7%AE%97">&#12518;&#12540;&#12470;&#12372;&#12392;&#12398;&#27963;&#21205;&#37327;(point + reward)&#12434;&#35336;&#31639;<a class="anchor-link" href="#%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%94%E3%81%A8%E3%81%AE%E6%B4%BB%E5%8B%95%E9%87%8F(point-+-reward)%E3%82%92%E8%A8%88%E7%AE%97">&#182;</a></h2><p>rowはuser_idごとのDataFrameが入る</p>
 <p>そのため、row.point + row.rewardはSeriesになる。</p>
 <ul>
-<li><p>サンプルコード</p>
+<li>サンプルコード</li>
+</ul>
 <div class="highlight"><pre><span></span><span class="n">df_merged</span> \
-  <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;user_id&quot;</span><span class="p">)</span> \
-  <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">point</span> <span class="o">+</span> <span class="n">row</span><span class="o">.</span><span class="n">reward</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;user_id&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">point</span> <span class="o">+</span> <span class="n">row</span><span class="o">.</span><span class="n">reward</span><span class="p">)</span>
 </pre></div>
-</li>
-<li><p>サンプルコードの実行結果</p>
+<ul>
+<li>サンプルコードの実行結果</li>
+</ul>
 <div class="highlight"><pre><span></span>user_id      
 BcHgeZkTsc  <span class="m">0</span>     <span class="m">2</span>
-          <span class="m">3</span>    <span class="m">42</span>
-          <span class="m">5</span>     <span class="m">1</span>
-          <span class="m">6</span>     <span class="m">1</span>
-          <span class="m">7</span>     <span class="m">4</span>
+            <span class="m">3</span>    <span class="m">42</span>
+            <span class="m">5</span>     <span class="m">1</span>
+            <span class="m">6</span>     <span class="m">1</span>
+            <span class="m">7</span>     <span class="m">4</span>
 HzZow64HGH  <span class="m">2</span>     <span class="m">3</span>
-          <span class="m">4</span>    <span class="m">49</span>
+            <span class="m">4</span>    <span class="m">49</span>
 KHPiabVr3o  <span class="m">1</span>    <span class="m">24</span>
 dtype: int64
 </pre></div>
-</li>
-</ul>
 <p>本例ではuser_idごとの活動量を出したいので、Seriesをsumする必要がある。</p>
 
 </div>
@@ -17004,9 +16988,7 @@ dtype: int64
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
 
@@ -17103,9 +17085,7 @@ dtype: int64
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
 
@@ -17163,6 +17143,22 @@ dtype: int64
 
 </div>
 
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+     </div>
+</div>
+</div>
 </div>
 
 </div>

@@ -10,5 +10,8 @@ polars = "*"
 
 [dev-packages]
 
+[scripts]
+start = "jupyter-notebook"
+
 [requires]
 python_version = "3.10"
