@@ -14591,7 +14591,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
     <!-- End of mathjax configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=344c67f6" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14600,6 +14600,11 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <h1 id="%E6%9C%AC%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">&#26412;&#12467;&#12540;&#12489;&#12395;&#12388;&#12356;&#12390;<a class="anchor-link" href="#%E6%9C%AC%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">&#182;</a></h1><p><a href="https://github.com/pola-rs/polars">polars</a>ライブラリを使って、ユーザ一覧、ユーザ操作一覧、リアクション一覧を集計するサンプル</p>
 <p>幾つかの例を踏まえつつ、ユーザごとの活動度(actions.point + reactions.reward)のランキングを出すことを目標とする</p>
 <h2 id="%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4">&#26356;&#26032;&#23653;&#27508;<a class="anchor-link" href="#%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4">&#182;</a></h2><ul>
+<li>2022.03.18 polars v0.16.14で動作を検証<ul>
+<li>sortのreverse属性がdescending属性にリネーム</li>
+<li>with_columnがwith_columnsにリネーム</li>
+</ul>
+</li>
 <li>2022.12.30 polars v0.15.8で動作を検証、datetimeのタイムゾーンがprint時に表示される旨を追記</li>
 <li>2022.09.17 polars v0.14.0および処理上の警告に対応</li>
 </ul>
@@ -14639,7 +14644,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div id="cell-id=08c01567" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14657,7 +14662,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=b3b5e4d2" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14667,7 +14672,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=995a8533" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14697,163 +14702,13 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (5, 5)</small>
-<thead>
-<tr>
-<th>
-id
-</th>
-<th>
-name
-</th>
-<th>
-email
-</th>
-<th>
-type
-</th>
-<th>
-leaved
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-bool
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;アリス&quot;
-</td>
-<td>
-&quot;hoge@hoge.exam...
-</td>
-<td>
-&quot;personal&quot;
-</td>
-<td>
-false
-</td>
-</tr>
-<tr>
-<td>
-&quot;KHPiabVr3o&quot;
-</td>
-<td>
-&quot;ボブ&quot;
-</td>
-<td>
-&quot;fuga@fuga.org&quot;
-</td>
-<td>
-&quot;personal&quot;
-</td>
-<td>
-false
-</td>
-</tr>
-<tr>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;チャーリー&quot;
-</td>
-<td>
-&quot;foo@foo.net&quot;
-</td>
-<td>
-&quot;personal&quot;
-</td>
-<td>
-true
-</td>
-</tr>
-<tr>
-<td>
-&quot;C82ZQKSQk7&quot;
-</td>
-<td>
-&quot;ダービー&quot;
-</td>
-<td>
-&quot;baz@baz.biz&quot;
-</td>
-<td>
-&quot;enterprise&quot;
-</td>
-<td>
-false
-</td>
-</tr>
-<tr>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-&quot;エリザベス&quot;
-</td>
-<td>
-&quot;bar@bar.info&quot;
-</td>
-<td>
-&quot;enterprise&quot;
-</td>
-<td>
-false
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (5, 5)</small><table border="1" class="dataframe"><thead><tr><th>id</th><th>name</th><th>email</th><th>type</th><th>leaved</th></tr><tr><td>str</td><td>str</td><td>str</td><td>str</td><td>bool</td></tr></thead><tbody><tr><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;アリス&quot;</td><td>&quot;hoge@hoge.exam...</td><td>&quot;personal&quot;</td><td>false</td></tr><tr><td>&quot;KHPiabVr3o&quot;</td><td>&quot;ボブ&quot;</td><td>&quot;fuga@fuga.org&quot;</td><td>&quot;personal&quot;</td><td>false</td></tr><tr><td>&quot;AQA7LkexXv&quot;</td><td>&quot;チャーリー&quot;</td><td>&quot;foo@foo.net&quot;</td><td>&quot;personal&quot;</td><td>true</td></tr><tr><td>&quot;C82ZQKSQk7&quot;</td><td>&quot;ダービー&quot;</td><td>&quot;baz@baz.biz&quot;</td><td>&quot;enterprise&quot;</td><td>false</td></tr><tr><td>&quot;HzZow64HGH&quot;</td><td>&quot;エリザベス&quot;</td><td>&quot;bar@bar.info&quot;</td><td>&quot;enterprise&quot;</td><td>false</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -14863,7 +14718,7 @@ false
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=57c681a2" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14878,7 +14733,7 @@ false
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=ddce47be" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14907,100 +14762,13 @@ false
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (5, 2)</small>
-<thead>
-<tr>
-<th>
-id
-</th>
-<th>
-name
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-str
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;アリス&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;KHPiabVr3o&quot;
-</td>
-<td>
-&quot;ボブ&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;チャーリー&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;C82ZQKSQk7&quot;
-</td>
-<td>
-&quot;ダービー&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-&quot;エリザベス&quot;
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (5, 2)</small><table border="1" class="dataframe"><thead><tr><th>id</th><th>name</th></tr><tr><td>str</td><td>str</td></tr></thead><tbody><tr><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;アリス&quot;</td></tr><tr><td>&quot;KHPiabVr3o&quot;</td><td>&quot;ボブ&quot;</td></tr><tr><td>&quot;AQA7LkexXv&quot;</td><td>&quot;チャーリー&quot;</td></tr><tr><td>&quot;C82ZQKSQk7&quot;</td><td>&quot;ダービー&quot;</td></tr><tr><td>&quot;HzZow64HGH&quot;</td><td>&quot;エリザベス&quot;</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -15009,7 +14777,7 @@ str
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=ed4fbcaa" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15038,100 +14806,13 @@ str
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (5, 2)</small>
-<thead>
-<tr>
-<th>
-id
-</th>
-<th>
-name
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-str
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;アリス&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;KHPiabVr3o&quot;
-</td>
-<td>
-&quot;ボブ&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;チャーリー&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;C82ZQKSQk7&quot;
-</td>
-<td>
-&quot;ダービー&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-&quot;エリザベス&quot;
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (5, 2)</small><table border="1" class="dataframe"><thead><tr><th>id</th><th>name</th></tr><tr><td>str</td><td>str</td></tr></thead><tbody><tr><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;アリス&quot;</td></tr><tr><td>&quot;KHPiabVr3o&quot;</td><td>&quot;ボブ&quot;</td></tr><tr><td>&quot;AQA7LkexXv&quot;</td><td>&quot;チャーリー&quot;</td></tr><tr><td>&quot;C82ZQKSQk7&quot;</td><td>&quot;ダービー&quot;</td></tr><tr><td>&quot;HzZow64HGH&quot;</td><td>&quot;エリザベス&quot;</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -15141,7 +14822,7 @@ str
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=fdb03cf3" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15154,7 +14835,7 @@ str
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=6ee27bf1" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15183,129 +14864,13 @@ str
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (3, 5)</small>
-<thead>
-<tr>
-<th>
-id
-</th>
-<th>
-name
-</th>
-<th>
-email
-</th>
-<th>
-type
-</th>
-<th>
-leaved
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-bool
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;チャーリー&quot;
-</td>
-<td>
-&quot;foo@foo.net&quot;
-</td>
-<td>
-&quot;personal&quot;
-</td>
-<td>
-true
-</td>
-</tr>
-<tr>
-<td>
-&quot;C82ZQKSQk7&quot;
-</td>
-<td>
-&quot;ダービー&quot;
-</td>
-<td>
-&quot;baz@baz.biz&quot;
-</td>
-<td>
-&quot;enterprise&quot;
-</td>
-<td>
-false
-</td>
-</tr>
-<tr>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-&quot;エリザベス&quot;
-</td>
-<td>
-&quot;bar@bar.info&quot;
-</td>
-<td>
-&quot;enterprise&quot;
-</td>
-<td>
-false
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (3, 5)</small><table border="1" class="dataframe"><thead><tr><th>id</th><th>name</th><th>email</th><th>type</th><th>leaved</th></tr><tr><td>str</td><td>str</td><td>str</td><td>str</td><td>bool</td></tr></thead><tbody><tr><td>&quot;AQA7LkexXv&quot;</td><td>&quot;チャーリー&quot;</td><td>&quot;foo@foo.net&quot;</td><td>&quot;personal&quot;</td><td>true</td></tr><tr><td>&quot;C82ZQKSQk7&quot;</td><td>&quot;ダービー&quot;</td><td>&quot;baz@baz.biz&quot;</td><td>&quot;enterprise&quot;</td><td>false</td></tr><tr><td>&quot;HzZow64HGH&quot;</td><td>&quot;エリザベス&quot;</td><td>&quot;bar@bar.info&quot;</td><td>&quot;enterprise&quot;</td><td>false</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -15315,7 +14880,7 @@ false
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=aec6a5e8" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15328,7 +14893,7 @@ false
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=567791af" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15339,7 +14904,7 @@ false
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=d79389d2" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15349,7 +14914,7 @@ false
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=013b9889" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15389,7 +14954,7 @@ false
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=eafc11d8" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15399,7 +14964,7 @@ false
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=bc7abd2f" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15439,7 +15004,7 @@ false
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=f46082fa" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15451,7 +15016,7 @@ false
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=98bee18c" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15490,7 +15055,7 @@ false
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=ea8af937" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15504,7 +15069,7 @@ false
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=21038c27" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15544,7 +15109,7 @@ false
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=8de1ee71" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15587,7 +15152,7 @@ false
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=354dbefb" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15599,7 +15164,7 @@ false
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=beb16fc1" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15629,198 +15194,14 @@ false
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (7, 5)</small>
-<thead>
-<tr>
-<th>
-id
-</th>
-<th>
-user_id
-</th>
-<th>
-date
-</th>
-<th>
-message
-</th>
-<th>
-point
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-i64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;7GsubTX9n6&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T10:...
-</td>
-<td>
-&quot;Hoge hoge&quot;
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-&quot;D76FJVQ2j2&quot;
-</td>
-<td>
-&quot;KHPiabVr3o&quot;
-</td>
-<td>
-&quot;2021-08-15T10:...
-</td>
-<td>
-&quot;Lorem Ipsum&quot;
-</td>
-<td>
-21
-</td>
-</tr>
-<tr>
-<td>
-&quot;6znyhCukd6&quot;
-</td>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-&quot;2021-08-15T11:...
-</td>
-<td>
-&quot;テスト　テスト&quot;
-</td>
-<td>
-3
-</td>
-</tr>
-<tr>
-<td>
-&quot;hSQszmDjlU&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T12:...
-</td>
-<td>
-&quot;テスト
-テスト２&quot;
-</td>
-<td>
-42
-</td>
-</tr>
-<tr>
-<td>
-&quot;CVqQD0xH2Y&quot;
-</td>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-&quot;2021-08-15T14:...
-</td>
-<td>
-&quot;👑👑💢&quot;
-</td>
-<td>
-49
-</td>
-</tr>
-<tr>
-<td>
-&quot;OoXNK4b3px&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T14:...
-</td>
-<td>
-&quot;🔡&quot;
-</td>
-<td>
-null
-</td>
-</tr>
-<tr>
-<td>
-&quot;veDQHBOXnG&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T14:...
-</td>
-<td>
-&quot;foo&quot;
-</td>
-<td>
-4
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (7, 5)</small><table border="1" class="dataframe"><thead><tr><th>id</th><th>user_id</th><th>date</th><th>message</th><th>point</th></tr><tr><td>str</td><td>str</td><td>str</td><td>str</td><td>i64</td></tr></thead><tbody><tr><td>&quot;7GsubTX9n6&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T10:...</td><td>&quot;Hoge hoge&quot;</td><td>1</td></tr><tr><td>&quot;D76FJVQ2j2&quot;</td><td>&quot;KHPiabVr3o&quot;</td><td>&quot;2021-08-15T10:...</td><td>&quot;Lorem Ipsum&quot;</td><td>21</td></tr><tr><td>&quot;6znyhCukd6&quot;</td><td>&quot;HzZow64HGH&quot;</td><td>&quot;2021-08-15T11:...</td><td>&quot;テスト　テスト&quot;</td><td>3</td></tr><tr><td>&quot;hSQszmDjlU&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T12:...</td><td>&quot;テスト
+テスト２&quot;</td><td>42</td></tr><tr><td>&quot;CVqQD0xH2Y&quot;</td><td>&quot;HzZow64HGH&quot;</td><td>&quot;2021-08-15T14:...</td><td>&quot;👑👑💢&quot;</td><td>49</td></tr><tr><td>&quot;OoXNK4b3px&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T14:...</td><td>&quot;🔡&quot;</td><td>null</td></tr><tr><td>&quot;veDQHBOXnG&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T14:...</td><td>&quot;foo&quot;</td><td>4</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -15830,19 +15211,20 @@ null
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=df9d2c54" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="%E6%8A%95%E7%A8%BF%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92user_id%E6%98%87%E9%A0%86%E2%86%92point%E9%99%8D%E9%A0%86%E3%81%AB%E3%81%99%E3%82%8B:-sort">&#25237;&#31295;&#12487;&#12540;&#12479;&#12434;user_id&#26119;&#38918;&#8594;point&#38477;&#38918;&#12395;&#12377;&#12427;: sort<a class="anchor-link" href="#%E6%8A%95%E7%A8%BF%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92user_id%E6%98%87%E9%A0%86%E2%86%92point%E9%99%8D%E9%A0%86%E3%81%AB%E3%81%99%E3%82%8B:-sort">&#182;</a></h2><p>引数で渡すリストの各アイテムの順番がそれぞれ対応する(以下例であれば、user_idがreverse=False, pointがreverse=True)</p>
-<p>pandas.DataFrame.sort_valuesはpolars.DataFrame.sortに対応する。acsending属性はreverse属性に対応するが、acsendingはTrueで昇順、reverseはTrueで降順になっている。</p>
+<p>(as of v0.16.14) reverse属性は廃止され、descending属性を使う形になっている。</p>
+<p>(as of v0.15.8) pandas.DataFrame.sort_valuesはpolars.DataFrame.sortに対応する。acsending属性はreverse属性に対応するが、acsendingはTrueで昇順、reverseはTrueで降順になっている。</p>
 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=d9a4ea3c" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15851,7 +15233,7 @@ null
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sort_orders</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]</span>
-<span class="n">df_actions</span><span class="o">.</span><span class="n">sort</span><span class="p">([</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="s2">&quot;point&quot;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="n">sort_orders</span><span class="p">)</span>
+<span class="n">df_actions</span><span class="o">.</span><span class="n">sort</span><span class="p">([</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="s2">&quot;point&quot;</span><span class="p">],</span> <span class="n">descending</span><span class="o">=</span><span class="n">sort_orders</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15872,198 +15254,14 @@ null
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (7, 5)</small>
-<thead>
-<tr>
-<th>
-id
-</th>
-<th>
-user_id
-</th>
-<th>
-date
-</th>
-<th>
-message
-</th>
-<th>
-point
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-i64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;hSQszmDjlU&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T12:...
-</td>
-<td>
-&quot;テスト
-テスト２&quot;
-</td>
-<td>
-42
-</td>
-</tr>
-<tr>
-<td>
-&quot;veDQHBOXnG&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T14:...
-</td>
-<td>
-&quot;foo&quot;
-</td>
-<td>
-4
-</td>
-</tr>
-<tr>
-<td>
-&quot;7GsubTX9n6&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T10:...
-</td>
-<td>
-&quot;Hoge hoge&quot;
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-&quot;OoXNK4b3px&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T14:...
-</td>
-<td>
-&quot;🔡&quot;
-</td>
-<td>
-null
-</td>
-</tr>
-<tr>
-<td>
-&quot;CVqQD0xH2Y&quot;
-</td>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-&quot;2021-08-15T14:...
-</td>
-<td>
-&quot;👑👑💢&quot;
-</td>
-<td>
-49
-</td>
-</tr>
-<tr>
-<td>
-&quot;6znyhCukd6&quot;
-</td>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-&quot;2021-08-15T11:...
-</td>
-<td>
-&quot;テスト　テスト&quot;
-</td>
-<td>
-3
-</td>
-</tr>
-<tr>
-<td>
-&quot;D76FJVQ2j2&quot;
-</td>
-<td>
-&quot;KHPiabVr3o&quot;
-</td>
-<td>
-&quot;2021-08-15T10:...
-</td>
-<td>
-&quot;Lorem Ipsum&quot;
-</td>
-<td>
-21
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (7, 5)</small><table border="1" class="dataframe"><thead><tr><th>id</th><th>user_id</th><th>date</th><th>message</th><th>point</th></tr><tr><td>str</td><td>str</td><td>str</td><td>str</td><td>i64</td></tr></thead><tbody><tr><td>&quot;hSQszmDjlU&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T12:...</td><td>&quot;テスト
+テスト２&quot;</td><td>42</td></tr><tr><td>&quot;veDQHBOXnG&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T14:...</td><td>&quot;foo&quot;</td><td>4</td></tr><tr><td>&quot;7GsubTX9n6&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T10:...</td><td>&quot;Hoge hoge&quot;</td><td>1</td></tr><tr><td>&quot;OoXNK4b3px&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T14:...</td><td>&quot;🔡&quot;</td><td>null</td></tr><tr><td>&quot;CVqQD0xH2Y&quot;</td><td>&quot;HzZow64HGH&quot;</td><td>&quot;2021-08-15T14:...</td><td>&quot;👑👑💢&quot;</td><td>49</td></tr><tr><td>&quot;6znyhCukd6&quot;</td><td>&quot;HzZow64HGH&quot;</td><td>&quot;2021-08-15T11:...</td><td>&quot;テスト　テスト&quot;</td><td>3</td></tr><tr><td>&quot;D76FJVQ2j2&quot;</td><td>&quot;KHPiabVr3o&quot;</td><td>&quot;2021-08-15T10:...</td><td>&quot;Lorem Ipsum&quot;</td><td>21</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -16073,7 +15271,7 @@ null
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=e49f143c" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16090,11 +15288,12 @@ null
 <li>&quot;one&quot;: 1で置き換える</li>
 <li>&quot;zero&quot;: 0で置き換える</li>
 </ul>
+<p>(as of v0.16.14) with_column属性は廃止されたので、with_columns属性を代わりに使用する。</p>
 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=7d279110" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16102,7 +15301,7 @@ null
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_actions</span> <span class="o">=</span> <span class="n">df_actions</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_actions</span> <span class="o">=</span> <span class="n">df_actions</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;point&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;zero&quot;</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">df_actions</span><span class="p">[[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;point&quot;</span><span class="p">]]</span>
@@ -16126,116 +15325,13 @@ null
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (7, 2)</small>
-<thead>
-<tr>
-<th>
-id
-</th>
-<th>
-point
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-i64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;7GsubTX9n6&quot;
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-&quot;D76FJVQ2j2&quot;
-</td>
-<td>
-21
-</td>
-</tr>
-<tr>
-<td>
-&quot;6znyhCukd6&quot;
-</td>
-<td>
-3
-</td>
-</tr>
-<tr>
-<td>
-&quot;hSQszmDjlU&quot;
-</td>
-<td>
-42
-</td>
-</tr>
-<tr>
-<td>
-&quot;CVqQD0xH2Y&quot;
-</td>
-<td>
-49
-</td>
-</tr>
-<tr>
-<td>
-&quot;OoXNK4b3px&quot;
-</td>
-<td>
-0
-</td>
-</tr>
-<tr>
-<td>
-&quot;veDQHBOXnG&quot;
-</td>
-<td>
-4
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (7, 2)</small><table border="1" class="dataframe"><thead><tr><th>id</th><th>point</th></tr><tr><td>str</td><td>i64</td></tr></thead><tbody><tr><td>&quot;7GsubTX9n6&quot;</td><td>1</td></tr><tr><td>&quot;D76FJVQ2j2&quot;</td><td>21</td></tr><tr><td>&quot;6znyhCukd6&quot;</td><td>3</td></tr><tr><td>&quot;hSQszmDjlU&quot;</td><td>42</td></tr><tr><td>&quot;CVqQD0xH2Y&quot;</td><td>49</td></tr><tr><td>&quot;OoXNK4b3px&quot;</td><td>0</td></tr><tr><td>&quot;veDQHBOXnG&quot;</td><td>4</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -16245,7 +15341,7 @@ i64
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=711dec5e" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16253,11 +15349,12 @@ i64
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%94%E3%81%A8%E3%81%ABpoint%E3%82%92%E5%90%88%E7%AE%97:-groupby">&#12518;&#12540;&#12470;&#12372;&#12392;&#12395;point&#12434;&#21512;&#31639;: groupby<a class="anchor-link" href="#%E3%83%A6%E3%83%BC%E3%82%B6%E3%81%94%E3%81%A8%E3%81%ABpoint%E3%82%92%E5%90%88%E7%AE%97:-groupby">&#182;</a></h2><p>groupbyの引数で指定した&quot;user_id&quot;はIndexに変換される</p>
 <p>aggにて、どのパラメータをどの関数・処理で集計するかを指定する(指定しないパラメータは出力されない)。pandasの場合と異なり、dictで各列に関数を渡す形ではなく、リストで列選択＋処理内容を渡すイメージ。</p>
+<p>(as of v0.16.14) 集約後の結果について昇順ソートされなくなっている。</p>
 
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=c22729e9" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16290,84 +15387,13 @@ i64
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (3, 2)</small>
-<thead>
-<tr>
-<th>
-user_id
-</th>
-<th>
-point
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-i64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;KHPiabVr3o&quot;
-</td>
-<td>
-21
-</td>
-</tr>
-<tr>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-47
-</td>
-</tr>
-<tr>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-52
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (3, 2)</small><table border="1" class="dataframe"><thead><tr><th>user_id</th><th>point</th></tr><tr><td>str</td><td>i64</td></tr></thead><tbody><tr><td>&quot;BcHgeZkTsc&quot;</td><td>47</td></tr><tr><td>&quot;HzZow64HGH&quot;</td><td>52</td></tr><tr><td>&quot;KHPiabVr3o&quot;</td><td>21</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -16377,7 +15403,7 @@ i64
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=85a61701" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16396,7 +15422,7 @@ i64
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=5af63a89" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16407,7 +15433,7 @@ i64
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">user_id</span> <span class="ow">in</span> <span class="n">df_actions</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]:</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">df_actions</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;user_id&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">user_id</span><span class="p">)[[</span><span class="s2">&quot;point&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">user_id</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)])))</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">user_id</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)])))</span>
     <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">values</span><span class="o">=</span><span class="s2">&quot;point&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;describe&quot;</span><span class="p">)</span>
 </pre></div>
@@ -16430,174 +15456,13 @@ i64
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (3, 8)</small>
-<thead>
-<tr>
-<th>
-user_id
-</th>
-<th>
-count
-</th>
-<th>
-null_count
-</th>
-<th>
-mean
-</th>
-<th>
-std
-</th>
-<th>
-min
-</th>
-<th>
-max
-</th>
-<th>
-median
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-f64
-</td>
-<td>
-f64
-</td>
-<td>
-f64
-</td>
-<td>
-f64
-</td>
-<td>
-f64
-</td>
-<td>
-f64
-</td>
-<td>
-f64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;BcHgeZkTscBcHg...
-</td>
-<td>
-4.0
-</td>
-<td>
-0.0
-</td>
-<td>
-11.75
-</td>
-<td>
-20.238165
-</td>
-<td>
-0.0
-</td>
-<td>
-42.0
-</td>
-<td>
-2.5
-</td>
-</tr>
-<tr>
-<td>
-&quot;KHPiabVr3oKHPi...
-</td>
-<td>
-1.0
-</td>
-<td>
-0.0
-</td>
-<td>
-21.0
-</td>
-<td>
-0.0
-</td>
-<td>
-21.0
-</td>
-<td>
-21.0
-</td>
-<td>
-21.0
-</td>
-</tr>
-<tr>
-<td>
-&quot;HzZow64HGHHzZo...
-</td>
-<td>
-2.0
-</td>
-<td>
-0.0
-</td>
-<td>
-26.0
-</td>
-<td>
-32.526912
-</td>
-<td>
-3.0
-</td>
-<td>
-49.0
-</td>
-<td>
-26.0
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (3, 8)</small><table border="1" class="dataframe"><thead><tr><th>user_id</th><th>count</th><th>null_count</th><th>mean</th><th>std</th><th>min</th><th>max</th><th>median</th></tr><tr><td>str</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td></tr></thead><tbody><tr><td>&quot;BcHgeZkTscBcHg...</td><td>4.0</td><td>0.0</td><td>11.75</td><td>20.238165</td><td>0.0</td><td>42.0</td><td>2.5</td></tr><tr><td>&quot;KHPiabVr3oKHPi...</td><td>1.0</td><td>0.0</td><td>21.0</td><td>0.0</td><td>21.0</td><td>21.0</td><td>21.0</td></tr><tr><td>&quot;HzZow64HGHHzZo...</td><td>2.0</td><td>0.0</td><td>26.0</td><td>32.526912</td><td>3.0</td><td>49.0</td><td>26.0</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -16607,7 +15472,7 @@ f64
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=9e2735fb" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16617,7 +15482,7 @@ f64
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=bf8bba1d" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16652,114 +15517,13 @@ f64
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (3, 4)</small>
-<thead>
-<tr>
-<th>
-user_id
-</th>
-<th>
-date
-</th>
-<th>
-message
-</th>
-<th>
-point
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-i64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T10:...
-</td>
-<td>
-&quot;Hoge hoge&quot;
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-&quot;KHPiabVr3o&quot;
-</td>
-<td>
-&quot;2021-08-15T10:...
-</td>
-<td>
-&quot;Lorem Ipsum&quot;
-</td>
-<td>
-21
-</td>
-</tr>
-<tr>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-&quot;2021-08-15T11:...
-</td>
-<td>
-&quot;テスト　テスト&quot;
-</td>
-<td>
-3
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (3, 4)</small><table border="1" class="dataframe"><thead><tr><th>user_id</th><th>date</th><th>message</th><th>point</th></tr><tr><td>str</td><td>str</td><td>str</td><td>i64</td></tr></thead><tbody><tr><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T10:...</td><td>&quot;Hoge hoge&quot;</td><td>1</td></tr><tr><td>&quot;HzZow64HGH&quot;</td><td>&quot;2021-08-15T11:...</td><td>&quot;テスト　テスト&quot;</td><td>3</td></tr><tr><td>&quot;KHPiabVr3o&quot;</td><td>&quot;2021-08-15T10:...</td><td>&quot;Lorem Ipsum&quot;</td><td>21</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -16769,7 +15533,7 @@ i64
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=f32d5bb5" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16782,7 +15546,7 @@ i64
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=5967ccfd" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16791,7 +15555,7 @@ i64
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_actions_date</span> <span class="o">=</span> <span class="n">df_actions</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-<span class="n">df_actions_date</span> <span class="o">=</span> <span class="n">df_actions_date</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+<span class="n">df_actions_date</span> <span class="o">=</span> <span class="n">df_actions_date</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
         <span class="n">pl</span><span class="o">.</span><span class="n">Datetime</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S%z&quot;</span>
     <span class="p">)</span>
@@ -16825,108 +15589,13 @@ i64
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (6, 2)</small>
-<thead>
-<tr>
-<th>
-date
-</th>
-<th>
-point
-</th>
-</tr>
-<tr>
-<td>
-datetime[μs, +09:00]
-</td>
-<td>
-i64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-2021-08-15 10:05:00 +09:00
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-2021-08-15 10:15:00 +09:00
-</td>
-<td>
-21
-</td>
-</tr>
-<tr>
-<td>
-2021-08-15 11:45:00 +09:00
-</td>
-<td>
-3
-</td>
-</tr>
-<tr>
-<td>
-2021-08-15 12:25:00 +09:00
-</td>
-<td>
-42
-</td>
-</tr>
-<tr>
-<td>
-2021-08-15 14:35:00 +09:00
-</td>
-<td>
-49
-</td>
-</tr>
-<tr>
-<td>
-2021-08-15 14:45:00 +09:00
-</td>
-<td>
-4
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (6, 2)</small><table border="1" class="dataframe"><thead><tr><th>date</th><th>point</th></tr><tr><td>datetime[μs, +09:00]</td><td>i64</td></tr></thead><tbody><tr><td>2021-08-15 10:05:00 +09:00</td><td>1</td></tr><tr><td>2021-08-15 10:15:00 +09:00</td><td>21</td></tr><tr><td>2021-08-15 11:45:00 +09:00</td><td>3</td></tr><tr><td>2021-08-15 12:25:00 +09:00</td><td>42</td></tr><tr><td>2021-08-15 14:35:00 +09:00</td><td>49</td></tr><tr><td>2021-08-15 14:45:00 +09:00</td><td>4</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -16936,7 +15605,7 @@ i64
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=6b41a73d" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16946,7 +15615,7 @@ i64
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=1338f9a0" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16976,144 +15645,13 @@ i64
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (3, 6)</small>
-<thead>
-<tr>
-<th>
-id
-</th>
-<th>
-action_id
-</th>
-<th>
-user_id
-</th>
-<th>
-date
-</th>
-<th>
-type
-</th>
-<th>
-reward
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-i64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;ycV0zbqrL5&quot;
-</td>
-<td>
-&quot;7GsubTX9n6&quot;
-</td>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;2021-08-15T11:...
-</td>
-<td>
-&quot;like&quot;
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-&quot;NXXk7iEsMA&quot;
-</td>
-<td>
-&quot;OoXNK4b3px&quot;
-</td>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;2021-08-15T13:...
-</td>
-<td>
-&quot;like&quot;
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-&quot;Oq9i6DBTBp&quot;
-</td>
-<td>
-&quot;OoXNK4b3px&quot;
-</td>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;2021-08-15T13:...
-</td>
-<td>
-&quot;like&quot;
-</td>
-<td>
-1
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (3, 6)</small><table border="1" class="dataframe"><thead><tr><th>id</th><th>action_id</th><th>user_id</th><th>date</th><th>type</th><th>reward</th></tr><tr><td>str</td><td>str</td><td>str</td><td>str</td><td>str</td><td>i64</td></tr></thead><tbody><tr><td>&quot;ycV0zbqrL5&quot;</td><td>&quot;7GsubTX9n6&quot;</td><td>&quot;AQA7LkexXv&quot;</td><td>&quot;2021-08-15T11:...</td><td>&quot;like&quot;</td><td>1</td></tr><tr><td>&quot;NXXk7iEsMA&quot;</td><td>&quot;OoXNK4b3px&quot;</td><td>&quot;AQA7LkexXv&quot;</td><td>&quot;2021-08-15T13:...</td><td>&quot;like&quot;</td><td>1</td></tr><tr><td>&quot;Oq9i6DBTBp&quot;</td><td>&quot;OoXNK4b3px&quot;</td><td>&quot;AQA7LkexXv&quot;</td><td>&quot;2021-08-15T13:...</td><td>&quot;like&quot;</td><td>1</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -17122,7 +15660,7 @@ i64
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=915c33ef" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17152,104 +15690,13 @@ i64
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (1, 6)</small>
-<thead>
-<tr>
-<th>
-id
-</th>
-<th>
-action_id
-</th>
-<th>
-user_id
-</th>
-<th>
-date
-</th>
-<th>
-type
-</th>
-<th>
-reward
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-i64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;jwUcUCuVEq&quot;
-</td>
-<td>
-&quot;D76FJVQ2j2&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T16:...
-</td>
-<td>
-&quot;comment&quot;
-</td>
-<td>
-3
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (1, 6)</small><table border="1" class="dataframe"><thead><tr><th>id</th><th>action_id</th><th>user_id</th><th>date</th><th>type</th><th>reward</th></tr><tr><td>str</td><td>str</td><td>str</td><td>str</td><td>str</td><td>i64</td></tr></thead><tbody><tr><td>&quot;jwUcUCuVEq&quot;</td><td>&quot;D76FJVQ2j2&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T16:...</td><td>&quot;comment&quot;</td><td>3</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -17259,7 +15706,7 @@ i64
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=a2d9978a" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17269,7 +15716,7 @@ i64
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=15a0d28a" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17299,164 +15746,13 @@ i64
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (4, 6)</small>
-<thead>
-<tr>
-<th>
-id
-</th>
-<th>
-action_id
-</th>
-<th>
-user_id
-</th>
-<th>
-date
-</th>
-<th>
-type
-</th>
-<th>
-reward
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-i64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;ycV0zbqrL5&quot;
-</td>
-<td>
-&quot;7GsubTX9n6&quot;
-</td>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;2021-08-15T11:...
-</td>
-<td>
-&quot;like&quot;
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-&quot;NXXk7iEsMA&quot;
-</td>
-<td>
-&quot;OoXNK4b3px&quot;
-</td>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;2021-08-15T13:...
-</td>
-<td>
-&quot;like&quot;
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-&quot;Oq9i6DBTBp&quot;
-</td>
-<td>
-&quot;OoXNK4b3px&quot;
-</td>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;2021-08-15T13:...
-</td>
-<td>
-&quot;like&quot;
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-&quot;jwUcUCuVEq&quot;
-</td>
-<td>
-&quot;D76FJVQ2j2&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T16:...
-</td>
-<td>
-&quot;comment&quot;
-</td>
-<td>
-3
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (4, 6)</small><table border="1" class="dataframe"><thead><tr><th>id</th><th>action_id</th><th>user_id</th><th>date</th><th>type</th><th>reward</th></tr><tr><td>str</td><td>str</td><td>str</td><td>str</td><td>str</td><td>i64</td></tr></thead><tbody><tr><td>&quot;ycV0zbqrL5&quot;</td><td>&quot;7GsubTX9n6&quot;</td><td>&quot;AQA7LkexXv&quot;</td><td>&quot;2021-08-15T11:...</td><td>&quot;like&quot;</td><td>1</td></tr><tr><td>&quot;NXXk7iEsMA&quot;</td><td>&quot;OoXNK4b3px&quot;</td><td>&quot;AQA7LkexXv&quot;</td><td>&quot;2021-08-15T13:...</td><td>&quot;like&quot;</td><td>1</td></tr><tr><td>&quot;Oq9i6DBTBp&quot;</td><td>&quot;OoXNK4b3px&quot;</td><td>&quot;AQA7LkexXv&quot;</td><td>&quot;2021-08-15T13:...</td><td>&quot;like&quot;</td><td>1</td></tr><tr><td>&quot;jwUcUCuVEq&quot;</td><td>&quot;D76FJVQ2j2&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T16:...</td><td>&quot;comment&quot;</td><td>3</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -17466,7 +15762,7 @@ i64
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=3f2902d5" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17477,7 +15773,7 @@ i64
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=fdaf29ee" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17489,7 +15785,7 @@ i64
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=ec3f8b17" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17510,7 +15806,7 @@ i64
     <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span>
 <span class="p">)</span>
 
-<span class="n">df_actions_merged</span> <span class="o">=</span> <span class="n">df_actions_merged</span><span class="o">.</span><span class="n">with_column</span><span class="p">(</span>
+<span class="n">df_actions_merged</span> <span class="o">=</span> <span class="n">df_actions_merged</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
     <span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;reward&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fill_null</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">df_actions_merged</span>
@@ -17534,365 +15830,14 @@ i64
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (8, 10)</small>
-<thead>
-<tr>
-<th>
-action_id
-</th>
-<th>
-user_id
-</th>
-<th>
-date
-</th>
-<th>
-message
-</th>
-<th>
-point
-</th>
-<th>
-reaction_id
-</th>
-<th>
-reaction_user_id
-</th>
-<th>
-reaction_date
-</th>
-<th>
-type
-</th>
-<th>
-reward
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-i64
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-i64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;7GsubTX9n6&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T10:...
-</td>
-<td>
-&quot;Hoge hoge&quot;
-</td>
-<td>
-1
-</td>
-<td>
-&quot;ycV0zbqrL5&quot;
-</td>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;2021-08-15T11:...
-</td>
-<td>
-&quot;like&quot;
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-&quot;D76FJVQ2j2&quot;
-</td>
-<td>
-&quot;KHPiabVr3o&quot;
-</td>
-<td>
-&quot;2021-08-15T10:...
-</td>
-<td>
-&quot;Lorem Ipsum&quot;
-</td>
-<td>
-21
-</td>
-<td>
-&quot;jwUcUCuVEq&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T16:...
-</td>
-<td>
-&quot;comment&quot;
-</td>
-<td>
-3
-</td>
-</tr>
-<tr>
-<td>
-&quot;6znyhCukd6&quot;
-</td>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-&quot;2021-08-15T11:...
-</td>
-<td>
-&quot;テスト　テスト&quot;
-</td>
-<td>
-3
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-0
-</td>
-</tr>
-<tr>
-<td>
-&quot;hSQszmDjlU&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T12:...
-</td>
-<td>
-&quot;テスト
-テスト２&quot;
-</td>
-<td>
-42
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-0
-</td>
-</tr>
-<tr>
-<td>
-&quot;CVqQD0xH2Y&quot;
-</td>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-&quot;2021-08-15T14:...
-</td>
-<td>
-&quot;👑👑💢&quot;
-</td>
-<td>
-49
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-0
-</td>
-</tr>
-<tr>
-<td>
-&quot;OoXNK4b3px&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T14:...
-</td>
-<td>
-&quot;🔡&quot;
-</td>
-<td>
-0
-</td>
-<td>
-&quot;NXXk7iEsMA&quot;
-</td>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;2021-08-15T13:...
-</td>
-<td>
-&quot;like&quot;
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-&quot;OoXNK4b3px&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T14:...
-</td>
-<td>
-&quot;🔡&quot;
-</td>
-<td>
-0
-</td>
-<td>
-&quot;Oq9i6DBTBp&quot;
-</td>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;2021-08-15T13:...
-</td>
-<td>
-&quot;like&quot;
-</td>
-<td>
-1
-</td>
-</tr>
-<tr>
-<td>
-&quot;veDQHBOXnG&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T14:...
-</td>
-<td>
-&quot;foo&quot;
-</td>
-<td>
-4
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-0
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (8, 10)</small><table border="1" class="dataframe"><thead><tr><th>action_id</th><th>user_id</th><th>date</th><th>message</th><th>point</th><th>reaction_id</th><th>reaction_user_id</th><th>reaction_date</th><th>type</th><th>reward</th></tr><tr><td>str</td><td>str</td><td>str</td><td>str</td><td>i64</td><td>str</td><td>str</td><td>str</td><td>str</td><td>i64</td></tr></thead><tbody><tr><td>&quot;7GsubTX9n6&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T10:...</td><td>&quot;Hoge hoge&quot;</td><td>1</td><td>&quot;ycV0zbqrL5&quot;</td><td>&quot;AQA7LkexXv&quot;</td><td>&quot;2021-08-15T11:...</td><td>&quot;like&quot;</td><td>1</td></tr><tr><td>&quot;D76FJVQ2j2&quot;</td><td>&quot;KHPiabVr3o&quot;</td><td>&quot;2021-08-15T10:...</td><td>&quot;Lorem Ipsum&quot;</td><td>21</td><td>&quot;jwUcUCuVEq&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T16:...</td><td>&quot;comment&quot;</td><td>3</td></tr><tr><td>&quot;6znyhCukd6&quot;</td><td>&quot;HzZow64HGH&quot;</td><td>&quot;2021-08-15T11:...</td><td>&quot;テスト　テスト&quot;</td><td>3</td><td>null</td><td>null</td><td>null</td><td>null</td><td>0</td></tr><tr><td>&quot;hSQszmDjlU&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T12:...</td><td>&quot;テスト
+テスト２&quot;</td><td>42</td><td>null</td><td>null</td><td>null</td><td>null</td><td>0</td></tr><tr><td>&quot;CVqQD0xH2Y&quot;</td><td>&quot;HzZow64HGH&quot;</td><td>&quot;2021-08-15T14:...</td><td>&quot;👑👑💢&quot;</td><td>49</td><td>null</td><td>null</td><td>null</td><td>null</td><td>0</td></tr><tr><td>&quot;OoXNK4b3px&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T14:...</td><td>&quot;🔡&quot;</td><td>0</td><td>&quot;NXXk7iEsMA&quot;</td><td>&quot;AQA7LkexXv&quot;</td><td>&quot;2021-08-15T13:...</td><td>&quot;like&quot;</td><td>1</td></tr><tr><td>&quot;OoXNK4b3px&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T14:...</td><td>&quot;🔡&quot;</td><td>0</td><td>&quot;Oq9i6DBTBp&quot;</td><td>&quot;AQA7LkexXv&quot;</td><td>&quot;2021-08-15T13:...</td><td>&quot;like&quot;</td><td>1</td></tr><tr><td>&quot;veDQHBOXnG&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T14:...</td><td>&quot;foo&quot;</td><td>4</td><td>null</td><td>null</td><td>null</td><td>null</td><td>0</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -17902,7 +15847,7 @@ null
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=18056ed0" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17915,7 +15860,7 @@ null
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=2555496e" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17950,395 +15895,14 @@ null
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (8, 11)</small>
-<thead>
-<tr>
-<th>
-action_id
-</th>
-<th>
-user_id
-</th>
-<th>
-date
-</th>
-<th>
-message
-</th>
-<th>
-point
-</th>
-<th>
-reaction_id
-</th>
-<th>
-reaction_user_id
-</th>
-<th>
-reaction_date
-</th>
-<th>
-type
-</th>
-<th>
-reward
-</th>
-<th>
-name
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-i64
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-str
-</td>
-<td>
-i64
-</td>
-<td>
-str
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;7GsubTX9n6&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T10:...
-</td>
-<td>
-&quot;Hoge hoge&quot;
-</td>
-<td>
-1
-</td>
-<td>
-&quot;ycV0zbqrL5&quot;
-</td>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;2021-08-15T11:...
-</td>
-<td>
-&quot;like&quot;
-</td>
-<td>
-1
-</td>
-<td>
-&quot;アリス&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;D76FJVQ2j2&quot;
-</td>
-<td>
-&quot;KHPiabVr3o&quot;
-</td>
-<td>
-&quot;2021-08-15T10:...
-</td>
-<td>
-&quot;Lorem Ipsum&quot;
-</td>
-<td>
-21
-</td>
-<td>
-&quot;jwUcUCuVEq&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T16:...
-</td>
-<td>
-&quot;comment&quot;
-</td>
-<td>
-3
-</td>
-<td>
-&quot;ボブ&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;6znyhCukd6&quot;
-</td>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-&quot;2021-08-15T11:...
-</td>
-<td>
-&quot;テスト　テスト&quot;
-</td>
-<td>
-3
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-0
-</td>
-<td>
-&quot;エリザベス&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;hSQszmDjlU&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T12:...
-</td>
-<td>
-&quot;テスト
-テスト２&quot;
-</td>
-<td>
-42
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-0
-</td>
-<td>
-&quot;アリス&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;CVqQD0xH2Y&quot;
-</td>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-&quot;2021-08-15T14:...
-</td>
-<td>
-&quot;👑👑💢&quot;
-</td>
-<td>
-49
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-0
-</td>
-<td>
-&quot;エリザベス&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;OoXNK4b3px&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T14:...
-</td>
-<td>
-&quot;🔡&quot;
-</td>
-<td>
-0
-</td>
-<td>
-&quot;NXXk7iEsMA&quot;
-</td>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;2021-08-15T13:...
-</td>
-<td>
-&quot;like&quot;
-</td>
-<td>
-1
-</td>
-<td>
-&quot;アリス&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;OoXNK4b3px&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T14:...
-</td>
-<td>
-&quot;🔡&quot;
-</td>
-<td>
-0
-</td>
-<td>
-&quot;Oq9i6DBTBp&quot;
-</td>
-<td>
-&quot;AQA7LkexXv&quot;
-</td>
-<td>
-&quot;2021-08-15T13:...
-</td>
-<td>
-&quot;like&quot;
-</td>
-<td>
-1
-</td>
-<td>
-&quot;アリス&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;veDQHBOXnG&quot;
-</td>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-&quot;2021-08-15T14:...
-</td>
-<td>
-&quot;foo&quot;
-</td>
-<td>
-4
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-null
-</td>
-<td>
-0
-</td>
-<td>
-&quot;アリス&quot;
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (8, 11)</small><table border="1" class="dataframe"><thead><tr><th>action_id</th><th>user_id</th><th>date</th><th>message</th><th>point</th><th>reaction_id</th><th>reaction_user_id</th><th>reaction_date</th><th>type</th><th>reward</th><th>name</th></tr><tr><td>str</td><td>str</td><td>str</td><td>str</td><td>i64</td><td>str</td><td>str</td><td>str</td><td>str</td><td>i64</td><td>str</td></tr></thead><tbody><tr><td>&quot;7GsubTX9n6&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T10:...</td><td>&quot;Hoge hoge&quot;</td><td>1</td><td>&quot;ycV0zbqrL5&quot;</td><td>&quot;AQA7LkexXv&quot;</td><td>&quot;2021-08-15T11:...</td><td>&quot;like&quot;</td><td>1</td><td>&quot;アリス&quot;</td></tr><tr><td>&quot;D76FJVQ2j2&quot;</td><td>&quot;KHPiabVr3o&quot;</td><td>&quot;2021-08-15T10:...</td><td>&quot;Lorem Ipsum&quot;</td><td>21</td><td>&quot;jwUcUCuVEq&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T16:...</td><td>&quot;comment&quot;</td><td>3</td><td>&quot;ボブ&quot;</td></tr><tr><td>&quot;6znyhCukd6&quot;</td><td>&quot;HzZow64HGH&quot;</td><td>&quot;2021-08-15T11:...</td><td>&quot;テスト　テスト&quot;</td><td>3</td><td>null</td><td>null</td><td>null</td><td>null</td><td>0</td><td>&quot;エリザベス&quot;</td></tr><tr><td>&quot;hSQszmDjlU&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T12:...</td><td>&quot;テスト
+テスト２&quot;</td><td>42</td><td>null</td><td>null</td><td>null</td><td>null</td><td>0</td><td>&quot;アリス&quot;</td></tr><tr><td>&quot;CVqQD0xH2Y&quot;</td><td>&quot;HzZow64HGH&quot;</td><td>&quot;2021-08-15T14:...</td><td>&quot;👑👑💢&quot;</td><td>49</td><td>null</td><td>null</td><td>null</td><td>null</td><td>0</td><td>&quot;エリザベス&quot;</td></tr><tr><td>&quot;OoXNK4b3px&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T14:...</td><td>&quot;🔡&quot;</td><td>0</td><td>&quot;NXXk7iEsMA&quot;</td><td>&quot;AQA7LkexXv&quot;</td><td>&quot;2021-08-15T13:...</td><td>&quot;like&quot;</td><td>1</td><td>&quot;アリス&quot;</td></tr><tr><td>&quot;OoXNK4b3px&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T14:...</td><td>&quot;🔡&quot;</td><td>0</td><td>&quot;Oq9i6DBTBp&quot;</td><td>&quot;AQA7LkexXv&quot;</td><td>&quot;2021-08-15T13:...</td><td>&quot;like&quot;</td><td>1</td><td>&quot;アリス&quot;</td></tr><tr><td>&quot;veDQHBOXnG&quot;</td><td>&quot;BcHgeZkTsc&quot;</td><td>&quot;2021-08-15T14:...</td><td>&quot;foo&quot;</td><td>4</td><td>null</td><td>null</td><td>null</td><td>null</td><td>0</td><td>&quot;アリス&quot;</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -18348,7 +15912,7 @@ null
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=ddca11c3" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -18358,7 +15922,7 @@ null
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=156ea02c" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -18393,84 +15957,13 @@ null
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (3, 2)</small>
-<thead>
-<tr>
-<th>
-user_id
-</th>
-<th>
-activity
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-i64
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-50
-</td>
-</tr>
-<tr>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-52
-</td>
-</tr>
-<tr>
-<td>
-&quot;KHPiabVr3o&quot;
-</td>
-<td>
-24
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (3, 2)</small><table border="1" class="dataframe"><thead><tr><th>user_id</th><th>activity</th></tr><tr><td>str</td><td>i64</td></tr></thead><tbody><tr><td>&quot;KHPiabVr3o&quot;</td><td>24</td></tr><tr><td>&quot;HzZow64HGH&quot;</td><td>52</td></tr><tr><td>&quot;BcHgeZkTsc&quot;</td><td>50</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -18480,7 +15973,7 @@ i64
 </div>
 
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=bb36d117" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -18490,7 +15983,7 @@ i64
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=af3b2738" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -18504,7 +15997,7 @@ i64
         <span class="n">on</span><span class="o">=</span><span class="s2">&quot;user_id&quot;</span><span class="p">,</span>
         <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span>
     <span class="p">)</span> \
-    <span class="o">.</span><span class="n">sort</span><span class="p">([</span><span class="s2">&quot;activity&quot;</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">sort</span><span class="p">([</span><span class="s2">&quot;activity&quot;</span><span class="p">],</span> <span class="n">descending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">df_ranking</span>
 </pre></div>
 
@@ -18526,99 +16019,13 @@ i64
 
 
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-    .dataframe td {
-        white-space: pre;
-    }
-
-    .dataframe td {
-        padding-top: 0;
-    }
-
-    .dataframe td {
-        padding-bottom: 0;
-    }
-
-    .dataframe td {
-        line-height: 95%;
-    }
+<div><style>
+.dataframe > thead > tr > th,
+.dataframe > tbody > tr > td {
+  text-align: right;
+}
 </style>
-<table border="1" class="dataframe">
-<small>shape: (3, 3)</small>
-<thead>
-<tr>
-<th>
-user_id
-</th>
-<th>
-activity
-</th>
-<th>
-name
-</th>
-</tr>
-<tr>
-<td>
-str
-</td>
-<td>
-i64
-</td>
-<td>
-str
-</td>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-&quot;HzZow64HGH&quot;
-</td>
-<td>
-52
-</td>
-<td>
-&quot;エリザベス&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;BcHgeZkTsc&quot;
-</td>
-<td>
-50
-</td>
-<td>
-&quot;アリス&quot;
-</td>
-</tr>
-<tr>
-<td>
-&quot;KHPiabVr3o&quot;
-</td>
-<td>
-24
-</td>
-<td>
-&quot;ボブ&quot;
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+<small>shape: (3, 3)</small><table border="1" class="dataframe"><thead><tr><th>user_id</th><th>activity</th><th>name</th></tr><tr><td>str</td><td>i64</td><td>str</td></tr></thead><tbody><tr><td>&quot;HzZow64HGH&quot;</td><td>52</td><td>&quot;エリザベス&quot;</td></tr><tr><td>&quot;BcHgeZkTsc&quot;</td><td>50</td><td>&quot;アリス&quot;</td></tr><tr><td>&quot;KHPiabVr3o&quot;</td><td>24</td><td>&quot;ボブ&quot;</td></tr></tbody></table></div>
 </div>
 
 </div>
@@ -18627,7 +16034,7 @@ str
 
 </div>
 
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div id="cell-id=35b5301b" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
