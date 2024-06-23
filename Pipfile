@@ -5,8 +5,8 @@ name = "pypi"
 
 [packages]
 jupyter = "*"
-pandas = "*"
-polars = "*"
+pandas = ">= 2.2.0"
+polars = ">= 0.20.5"
 
 [dev-packages]
 

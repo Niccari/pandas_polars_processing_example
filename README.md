@@ -4,10 +4,10 @@ Pandas/Polars processing example with often used methods(read_csv, groupby, appl
 For more information, please refer jupyter-notebook files.
 
 ## Confirmed versions
-- Python: 3.12.1
+- Python: 3.12.3
 
-- pandas: 2.2.0
-- polars: 0.20.5
+- pandas: 2.2.2
+- polars: 0.20.31
 
 ## Installation (If needed)
 Install numpy, pandas, polars and jupyter-notebook.
