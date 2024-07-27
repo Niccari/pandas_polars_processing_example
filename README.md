@@ -7,7 +7,7 @@ For more information, please refer jupyter-notebook files.
 - Python: 3.12.3
 
 - pandas: 2.2.2
-- polars: 0.20.31
+- polars: 1.2.1
 
 ## Installation (If needed)
 Install numpy, pandas, polars and jupyter-notebook.
