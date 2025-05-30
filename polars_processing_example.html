@@ -7519,6 +7519,7 @@ a.anchor-link {
 <h1 id="%E6%9C%AC%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">本コードについて<a class="anchor-link" href="#%E6%9C%AC%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">¶</a></h1><p><a href="https://github.com/pola-rs/polars">polars</a>ライブラリを使って、ユーザ一覧、ユーザ操作一覧、リアクション一覧を集計するサンプル</p>
 <p>幾つかの例を踏まえつつ、ユーザごとの活動度(actions.point + reactions.reward)のランキングを出すことを目標とする</p>
 <h2 id="%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4">更新履歴<a class="anchor-link" href="#%E6%9B%B4%E6%96%B0%E5%B1%A5%E6%AD%B4">¶</a></h2><ul>
+<li>2025.05.30 polars v1.30.0で動作を確認</li>
 <li>2024.07.27 polars v1.2.1で動作を確認</li>
 <li>2024.06.23 polars v0.20.31で動作を確認</li>
 <li>2024.01.21 polars v0.20.5で動作を確認</li>
@@ -7575,7 +7576,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [54]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -7601,7 +7602,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [55]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_users</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"users.csv"</span><span class="p">)</span>
@@ -7616,7 +7617,7 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[55]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[2]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -7650,7 +7651,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [56]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_users</span><span class="p">[[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">]]</span>
@@ -7664,7 +7665,7 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[56]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -7683,7 +7684,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [57]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_users</span><span class="p">[:,</span> <span class="p">:</span><span class="s2">"name"</span><span class="p">]</span>    <span class="c1"># same as df_users.loc[:, :"name"] of pd.DataFrame</span>
@@ -7697,7 +7698,7 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[57]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[4]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -7729,7 +7730,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [58]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_users</span><span class="o">.</span><span class="n">filter</span><span class="p">((</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"enterprise"</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"leaved"</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">))</span>
@@ -7743,7 +7744,7 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[58]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[5]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -7796,7 +7797,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [59]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df_users</span><span class="p">)</span>
@@ -7810,7 +7811,7 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[59]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>5</pre>
 </div>
@@ -7833,7 +7834,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [60]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df_users</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="o">~</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"leaved"</span><span class="p">)))</span>
@@ -7847,7 +7848,7 @@ a.anchor-link {
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[60]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>4</pre>
 </div>
@@ -7863,7 +7864,8 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="%E3%83%A1%E3%83%BC%E3%83%AB%E3%82%A2%E3%83%89%E3%83%AC%E3%82%B9%E3%81%8C%22b%22%E3%81%8B%E3%82%89%E5%A7%8B%E3%81%BE%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E3%83%A6%E3%83%BC%E3%82%B6%E3%82%92%E5%8F%96%E3%82%8A%E3%81%A0%E3%81%97:-polars.Series.apply">メールアドレスが"b"から始まっているユーザを取りだし: polars.Series.apply<a class="anchor-link" href="#%E3%83%A1%E3%83%BC%E3%83%AB%E3%82%A2%E3%83%89%E3%83%AC%E3%82%B9%E3%81%8C%22b%22%E3%81%8B%E3%82%89%E5%A7%8B%E3%81%BE%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E3%83%A6%E3%83%BC%E3%82%B6%E3%82%92%E5%8F%96%E3%82%8A%E3%81%A0%E3%81%97:-polars.Series.apply">¶</a></h3><p>今回のケースでは、df_usersのemailだけ参照すればいいので、df_users.get_column("email")にapplyを使う方法が望ましい(よりスループットが高く、必要なデータのみ触るため)。polarsでは、第二引数(return_dtype)で返り値の型を指定しておく必要がある。また、よりシンプルに <code>df_users.filter((pl.col("email") &gt;= "b") &amp; (pl.col("email") &lt; "c"))</code>とすることも可。</p>
 <p>なお、polars.DataFrame.applyではcallableに渡されるのはTuple型の各行データになっている。</p>
-<p>※ v0.20.5時点で、apply → map_elementsにリネームされている</p>
+<p>※ v1.30.0において、map_elements を使うかわりに str.starts_withを使う方法で高速化
+※ v0.20.5時点で、apply → map_elementsにリネームされている</p>
 <p>※ 以下の例はv1.2.1時点で効率上の警告が表示される。map処理は遅いので、ビルトインの処理を極力使うべき(今回の場合、<code>df_users.get_column("email").str.starts_with</code>でよい)</p>
 </div>
 </div>
@@ -7873,10 +7875,10 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [61]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">serial_email_b_start</span> <span class="o">=</span> <span class="n">df_users</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="s2">"email"</span><span class="p">)</span><span class="o">.</span><span class="n">map_elements</span><span class="p">(</span><span class="k">lambda</span> <span class="n">email</span><span class="p">:</span> <span class="n">email</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"b"</span><span class="p">))</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">serial_email_b_start</span> <span class="o">=</span> <span class="n">df_users</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="s2">"email"</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">starts_with</span><span class="p">(</span><span class="s2">"b"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_users</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">serial_email_b_start</span><span class="p">)))</span>
 </pre></div>
 </div>
@@ -7891,23 +7893,6 @@ a.anchor-link {
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>2
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>/var/folders/vk/0v6tt_cx2z394tzy6knv2m1m0000gn/T/ipykernel_2072/2882734272.py:1: PolarsInefficientMapWarning: 
-Series.map_elements is significantly slower than the native series API.
-Only use if you absolutely CANNOT implement your logic otherwise.
-Replace this expression...
-  - s.map_elements(lambda email: ...)
-with this one instead:
-  + s.str.starts_with('b')
-
-  serial_email_b_start = df_users.get_column("email").map_elements(lambda email: email.startswith("b"))
-/var/folders/vk/0v6tt_cx2z394tzy6knv2m1m0000gn/T/ipykernel_2072/2882734272.py:1: MapWithoutReturnDtypeWarning: Calling `map_elements` without specifying `return_dtype` can lead to unpredictable results. Specify `return_dtype` to silence this warning.
-  serial_email_b_start = df_users.get_column("email").map_elements(lambda email: email.startswith("b"))
 </pre>
 </div>
 </div>
@@ -7932,7 +7917,7 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [62]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">user_types</span> <span class="o">=</span> <span class="n">df_users</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s2">"type"</span><span class="p">)</span><span class="o">.</span><span class="n">get_column</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
@@ -7947,9 +7932,9 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[62]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[9]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>['enterprise', 'personal']</pre>
+<pre>['personal', 'enterprise']</pre>
 </div>
 </div>
 </div>
@@ -7959,7 +7944,7 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [63]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="p">{</span>
@@ -7976,9 +7961,9 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[63]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>{'enterprise': 2, 'personal': 3}</pre>
+<pre>{'personal': 3, 'enterprise': 2}</pre>
 </div>
 </div>
 </div>
@@ -8000,7 +7985,7 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [64]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_actions</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"actions.csv"</span><span class="p">)</span>
@@ -8015,7 +8000,7 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[64]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -8049,7 +8034,7 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [65]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">sort_orders</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]</span>
@@ -8064,7 +8049,7 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[65]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -8106,7 +8091,7 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [66]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_actions</span> <span class="o">=</span> <span class="n">df_actions</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span>
@@ -8123,7 +8108,7 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[66]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[13]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -8155,7 +8140,7 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [67]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_actions</span> \
@@ -8173,7 +8158,7 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[67]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[14]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -8182,7 +8167,7 @@ with this one instead:
   white-space: pre-wrap;
 }
 </style>
-<small>shape: (3, 2)</small><table border="1" class="dataframe"><thead><tr><th>user_id</th><th>point</th></tr><tr><td>str</td><td>i64</td></tr></thead><tbody><tr><td>"BcHgeZkTsc"</td><td>47</td></tr><tr><td>"KHPiabVr3o"</td><td>21</td></tr><tr><td>"HzZow64HGH"</td><td>52</td></tr></tbody></table></div>
+<small>shape: (3, 2)</small><table border="1" class="dataframe"><thead><tr><th>user_id</th><th>point</th></tr><tr><td>str</td><td>i64</td></tr></thead><tbody><tr><td>"KHPiabVr3o"</td><td>21</td></tr><tr><td>"BcHgeZkTsc"</td><td>47</td></tr><tr><td>"HzZow64HGH"</td><td>52</td></tr></tbody></table></div>
 </div>
 </div>
 </div>
@@ -8203,6 +8188,7 @@ with this one instead:
 <li>mean, std, min, median(=50%), max</li>
 </ul>
 <p>が出力される。count, 25%, 75%に相当する統計値は出さない。</p>
+<p>※ v1.30.0時点で、従来のpl.Seriesで行数をあわせる方法では正しく行数をあわせられない。pl.litを使う方法に修正。</p>
 <p>※ v1.2.1時点で、decribeして得られるカラム名が"describe"から"statistic"に変更されている。また、pivotについて<code>columns</code>属性は<code>on</code>にリネームされている。</p>
 <p>※ v0.16.17から、pivotにて明示的にaggregate_functionを指定しないと警告になる。将来、デフォルトの関数が"first"から"None"に置き換わる予定のため</p>
 </div>
@@ -8213,13 +8199,13 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [68]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">user_id</span> <span class="ow">in</span> <span class="n">df_actions</span><span class="p">[</span><span class="s2">"user_id"</span><span class="p">]:</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">df_actions</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">"user_id"</span><span class="p">)</span> <span class="o">==</span> <span class="n">user_id</span><span class="p">)[[</span><span class="s2">"point"</span><span class="p">]]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"user_id"</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">pl</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">user_id</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)])))</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">with_columns</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">lit</span><span class="p">(</span><span class="n">user_id</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">"user_id"</span><span class="p">))</span>
     <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span>
     <span class="n">values</span><span class="o">=</span><span class="s2">"point"</span><span class="p">,</span>
@@ -8237,7 +8223,7 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[68]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -8246,7 +8232,7 @@ with this one instead:
   white-space: pre-wrap;
 }
 </style>
-<small>shape: (3, 10)</small><table border="1" class="dataframe"><thead><tr><th>user_id</th><th>count</th><th>null_count</th><th>mean</th><th>std</th><th>min</th><th>25%</th><th>50%</th><th>75%</th><th>max</th></tr><tr><td>str</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td></tr></thead><tbody><tr><td>"BcHgeZkTscBcHgeZkTscBcHgeZkTsc…</td><td>4.0</td><td>0.0</td><td>11.75</td><td>20.238165</td><td>0.0</td><td>1.0</td><td>4.0</td><td>4.0</td><td>42.0</td></tr><tr><td>"KHPiabVr3oKHPiabVr3oKHPiabVr3o…</td><td>1.0</td><td>0.0</td><td>21.0</td><td>null</td><td>21.0</td><td>21.0</td><td>21.0</td><td>21.0</td><td>21.0</td></tr><tr><td>"HzZow64HGHHzZow64HGHHzZow64HGH…</td><td>2.0</td><td>0.0</td><td>26.0</td><td>32.526912</td><td>3.0</td><td>3.0</td><td>49.0</td><td>49.0</td><td>49.0</td></tr></tbody></table></div>
+<small>shape: (3, 10)</small><table border="1" class="dataframe"><thead><tr><th>user_id</th><th>count</th><th>null_count</th><th>mean</th><th>std</th><th>min</th><th>25%</th><th>50%</th><th>75%</th><th>max</th></tr><tr><td>str</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td><td>f64</td></tr></thead><tbody><tr><td>"BcHgeZkTsc"</td><td>4.0</td><td>0.0</td><td>11.75</td><td>20.238165</td><td>0.0</td><td>1.0</td><td>4.0</td><td>4.0</td><td>42.0</td></tr><tr><td>"KHPiabVr3o"</td><td>1.0</td><td>0.0</td><td>21.0</td><td>null</td><td>21.0</td><td>21.0</td><td>21.0</td><td>21.0</td><td>21.0</td></tr><tr><td>"HzZow64HGH"</td><td>2.0</td><td>0.0</td><td>26.0</td><td>32.526912</td><td>3.0</td><td>3.0</td><td>49.0</td><td>49.0</td><td>49.0</td></tr></tbody></table></div>
 </div>
 </div>
 </div>
@@ -8267,7 +8253,7 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [69]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_actions</span> \
@@ -8287,7 +8273,7 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[69]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[16]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -8296,7 +8282,7 @@ with this one instead:
   white-space: pre-wrap;
 }
 </style>
-<small>shape: (3, 4)</small><table border="1" class="dataframe"><thead><tr><th>user_id</th><th>date</th><th>message</th><th>point</th></tr><tr><td>str</td><td>str</td><td>str</td><td>i64</td></tr></thead><tbody><tr><td>"KHPiabVr3o"</td><td>"2021-08-15T10:23:45+09:00"</td><td>"Lorem Ipsum"</td><td>21</td></tr><tr><td>"BcHgeZkTsc"</td><td>"2021-08-15T10:12:34+09:00"</td><td>"Hoge hoge"</td><td>1</td></tr><tr><td>"HzZow64HGH"</td><td>"2021-08-15T11:54:32+09:00"</td><td>"テスト　テスト"</td><td>3</td></tr></tbody></table></div>
+<small>shape: (3, 4)</small><table border="1" class="dataframe"><thead><tr><th>user_id</th><th>date</th><th>message</th><th>point</th></tr><tr><td>str</td><td>str</td><td>str</td><td>i64</td></tr></thead><tbody><tr><td>"BcHgeZkTsc"</td><td>"2021-08-15T10:12:34+09:00"</td><td>"Hoge hoge"</td><td>1</td></tr><tr><td>"KHPiabVr3o"</td><td>"2021-08-15T10:23:45+09:00"</td><td>"Lorem Ipsum"</td><td>21</td></tr><tr><td>"HzZow64HGH"</td><td>"2021-08-15T11:54:32+09:00"</td><td>"テスト　テスト"</td><td>3</td></tr></tbody></table></div>
 </div>
 </div>
 </div>
@@ -8319,7 +8305,7 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [70]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_actions_date</span> <span class="o">=</span> <span class="n">df_actions</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
@@ -8349,7 +8335,7 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[70]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[17]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -8379,7 +8365,7 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [71]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_reactions_1</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"reactions_1.csv"</span><span class="p">)</span>
@@ -8394,7 +8380,7 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[71]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -8413,7 +8399,7 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [72]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_reactions_2</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"reactions_2.csv"</span><span class="p">)</span>
@@ -8428,7 +8414,7 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[72]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[19]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -8458,7 +8444,7 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [73]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_reactions</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_reactions_1</span><span class="p">,</span> <span class="n">df_reactions_2</span><span class="p">])</span>
@@ -8473,7 +8459,7 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[73]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[20]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -8515,7 +8501,7 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [74]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_reactions_renamed</span> <span class="o">=</span> <span class="n">df_reactions</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span>
@@ -8545,7 +8531,7 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[74]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[21]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -8578,7 +8564,7 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [75]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_users_dropped</span> <span class="o">=</span> <span class="n">df_users</span><span class="p">[[</span><span class="s2">"id"</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">]]</span>
@@ -8598,7 +8584,7 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[75]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[22]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -8629,7 +8615,7 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [76]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_sum</span> <span class="o">=</span> <span class="n">df_merged</span> \
@@ -8649,7 +8635,7 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[76]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
@@ -8658,7 +8644,7 @@ with this one instead:
   white-space: pre-wrap;
 }
 </style>
-<small>shape: (3, 2)</small><table border="1" class="dataframe"><thead><tr><th>user_id</th><th>activity</th></tr><tr><td>str</td><td>i64</td></tr></thead><tbody><tr><td>"KHPiabVr3o"</td><td>24</td></tr><tr><td>"HzZow64HGH"</td><td>52</td></tr><tr><td>"BcHgeZkTsc"</td><td>50</td></tr></tbody></table></div>
+<small>shape: (3, 2)</small><table border="1" class="dataframe"><thead><tr><th>user_id</th><th>activity</th></tr><tr><td>str</td><td>i64</td></tr></thead><tbody><tr><td>"HzZow64HGH"</td><td>52</td></tr><tr><td>"KHPiabVr3o"</td><td>24</td></tr><tr><td>"BcHgeZkTsc"</td><td>50</td></tr></tbody></table></div>
 </div>
 </div>
 </div>
@@ -8679,7 +8665,7 @@ with this one instead:
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [77]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_ranking</span> <span class="o">=</span> <span class="n">df_sum</span> \
@@ -8700,7 +8686,7 @@ with this one instead:
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[77]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[24]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div><style>
 .dataframe > thead > tr,
