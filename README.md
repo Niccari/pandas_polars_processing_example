@@ -9,14 +9,14 @@ For more information, please refer jupyter-notebook files.
 - pandas: 2.2.3
 - polars: 1.30.0
 
-## Installation (If needed)
-Install numpy, pandas, polars and jupyter-notebook.
+## Installation
 
-If you have pipenv, you can use the attached Pipfile.
+### Using uv (Recommended)
+Install dependencies using uv:
 
 ```bash
-$ pipenv install
-$ pipenv run start
+$ uv sync
+$ uv run jupyter-notebook
 ```
 
 ## LICENSE
